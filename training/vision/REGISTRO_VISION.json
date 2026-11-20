@@ -1,0 +1,14 @@
+{
+  "pesos": "runs/detect/runs/quickcoti/oficial/weights/best.pt",
+  "exportes": {
+    "onnx": "runs/detect/runs/quickcoti/oficial/weights/best.onnx",
+    "tensorrt_fp16": "runs/detect/runs/quickcoti/oficial/weights/best.engine",
+    "tensorrt_version": "10.7.0",
+    "build_min": 46.2
+  },
+  "latencia_ms": {
+    "pytorch": 26.2,
+    "tensorrt_fp16": 17.4
+  },
+  "fin_export": "2026-11-20T06:13:28"
+}

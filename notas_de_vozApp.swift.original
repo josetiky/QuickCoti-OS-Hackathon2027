@@ -1,0 +1,17 @@
+//
+//  notas_de_vozApp.swift
+//  notas de voz
+//
+//  Created by José Ángel García Ruiz on 19/04/26.
+//
+
+import SwiftUI
+
+@main
+struct notas_de_vozApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}

@@ -1,0 +1,1805 @@
+[
+ {
+  "c": {
+   "task": "T1",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres Hermes, el asistente que configura QuickCoti para un negocio pequeño en México.\nEntrevistas al dueño con preguntas cortas, en español sencillo, UNA pregunta por turno, máximo 7 preguntas.\nDebes averiguar: nombre del negocio, giro, si compra mercancía a proveedores para revender (inventario),\nsi hace trabajos a la medida o cotizaciones, si cobra anticipos, si renta cosas a sus clientes,\nsi hace entregas a domicilio, qué medios de pago acepta y quiénes son sus proveedores.\nResponde SIEMPRE solo con JSON válido, sin texto extra, con esta forma:\n{\"done\": false, \"next_question\": \"...\"}  mientras te falte información, o\n{\"done\": true, \"profile\": {BusinessProfile}} cuando ya sepas lo suficiente.\nBusinessProfile = {\"schema_version\":2,\"business_name\":str,\"giro\":str,\n \"modules\":{\"sales\":true,\"purchases\":true,\"inventory\":bool,\"quotes\":bool,\"deposits\":bool,\"rentals\":bool,\"delivery\":bool},\n \"intake_modes\":[...de \"supplier_ticket_photo\",\"handwritten_note_photo\",\"voice\",\"manual\"],\n \"terminology\":{\"item\":str,\"items\":str,\"stock\":str,\"purchase\":str,\"sale\":str},\n \"payment_methods\":[...de \"efectivo\",\"tarjeta\",\"codi\",\"transferencia\"],\n \"suppliers\":[str],\"digital_only_sector\":false,\"units\":[str],\"missing_info\":[str]}\nReglas: sales y purchases siempre true. inventory=true solo si revende mercancía. quotes=true si hace trabajos a medida\no cotiza varios conceptos. rentals=true si renta cosas que le regresan (mobiliario, equipo, ropa, cuartos), con depósito\ny fecha de devolución. delivery=true si lleva pedidos al domicilio del cliente.\nUsa las palabras del dueño en terminology (ej. herrero: item=\"Material\", sale=\"Trabajo\"; renta de sillas: sale=\"Renta\").\nSi algo no quedó claro, ponlo en missing_info en lugar de inventarlo."
+    },
+    {
+     "role": "user",
+     "content": "Hola"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¡Hola! Soy Hermes. ¿Cómo se llama tu negocio y a qué te dedicas?\"}"
+    },
+    {
+     "role": "user",
+     "content": "Fiestas Mágicas Tlacolula, rentamos todo para fiestas"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Compras mercancía a proveedores para volver a venderla?\"}"
+    },
+    {
+     "role": "user",
+     "content": "no, el mobiliario es mío"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Haces trabajos a la medida o das cotizaciones antes de cobrar?\"}"
+    },
+    {
+     "role": "user",
+     "content": "sí, les paso presupuesto según el evento"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Te pagan por adelantado una parte (anticipo)?\"}"
+    },
+    {
+     "role": "user",
+     "content": "sí, el 30% para apartar la fecha"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Rentas cosas a tus clientes que luego te regresan? (sillas, equipo, ropa, cuartos…)\"}"
+    },
+    {
+     "role": "user",
+     "content": "sí: sillas tiffany, mesas redondas y un castillo inflable"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Haces entregas a domicilio?\"}"
+    },
+    {
+     "role": "user",
+     "content": "sí, lo llevamos y lo montamos"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Cómo te pagan tus clientes? (efectivo, tarjeta, transferencia, CoDi)\"}"
+    },
+    {
+     "role": "user",
+     "content": "efectivo y transferencia"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": true, \"profile\": {\"schema_version\": 2, \"digital_only_sector\": false, \"missing_info\": [], \"business_name\": \"Fiestas Mágicas Tlacolula\", \"giro\": \"renta_mobiliario\", \"modules\": {\"sales\": true, \"purchases\": true, \"inventory\": false, \"quotes\": true, \"deposits\": true, \"rentals\": true, \"delivery\": true}, \"intake_modes\": [\"handwritten_note_photo\", \"voice\", \"manual\"], \"terminology\": {\"item\": \"Artículo\", \"items\": \"Mobiliario\", \"stock\": \"Mobiliario disponible\", \"purchase\": \"Compra de mobiliario\", \"sale\": \"Renta\"}, \"payment_methods\": [\"efectivo\", \"transferencia\"], \"suppliers\": [], \"units\": [\"pieza\", \"juego\"]}}"
+    }
+   ],
+   "reservado": true
+  },
+  "base": "{\"done\": true, \"profile\": {\"business_name\": \"Fiestas Mágicas Tlacolula\", \"giro\": \"Rentas y servicios de fiestas\", \"modules\": {\"sales\": true, \"purchases\": true, \"inventory\": false, \"quotes\": true, \"deposits\": true, \"rentals\": true, \"delivery\": true}, \"intake_modes\": [\"supplier_ticket_photo\", \"handwritten_note_photo\", \"voice\", \"manual\"], \"terminology\": {\"item\": \"Sillas\", \"items\": \"Sillas y mesas\", \"stock\": \"Stock de sillas y mesas\", \"purchase\": \"Compra de sillas y mesas\", \"sale\": \"Venta de sillas y mesas\"}, \"payment_methods\": [\"efectivo\", \"transferencia\"], \"suppliers\": [\"Tiffany\", \"Mesas Redondas\", \"Castillo Inflable\"], \"digital_only_sector\": false, \"units\": [\"sillas\", \"mesas\", \"castillos\"], \"missing_info\": []}}",
+  "ajustado": "{\"done\": true, \"profile\": {\"schema_version\": 2, \"business_name\": \"Fiestas Mágicas Tlacolula\", \"giro\": \"renta_de_sillas_y_mesas\", \"modules\": {\"sales\": true, \"purchases\": true, \"inventory\": false, \"quotes\": true, \"deposits\": true, \"rentals\": true, \"delivery\": true}, \"intake_modes\": [\"handwritten_note_photo\", \"voice\", \"manual\"], \"terminology\": {\"item\": \"Equipo\", \"items\": \"Equipos\", \"stock\": \"Equipos disponibles\", \"purchase\": \"Compra de equipo\", \"sale\": \"Renta\"}, \"payment_methods\": [\"efectivo\", \"transferencia\"], \"suppliers\": [], \"digital_only_sector\": false, \"units\": [\"pieza\", \"mesa\"], \"missing_info\": []}}"
+ },
+ {
+  "c": {
+   "task": "T1",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres Hermes, el asistente que configura QuickCoti para un negocio pequeño en México.\nEntrevistas al dueño con preguntas cortas, en español sencillo, UNA pregunta por turno, máximo 7 preguntas.\nDebes averiguar: nombre del negocio, giro, si compra mercancía a proveedores para revender (inventario),\nsi hace trabajos a la medida o cotizaciones, si cobra anticipos, si renta cosas a sus clientes,\nsi hace entregas a domicilio, qué medios de pago acepta y quiénes son sus proveedores.\nResponde SIEMPRE solo con JSON válido, sin texto extra, con esta forma:\n{\"done\": false, \"next_question\": \"...\"}  mientras te falte información, o\n{\"done\": true, \"profile\": {BusinessProfile}} cuando ya sepas lo suficiente.\nBusinessProfile = {\"schema_version\":2,\"business_name\":str,\"giro\":str,\n \"modules\":{\"sales\":true,\"purchases\":true,\"inventory\":bool,\"quotes\":bool,\"deposits\":bool,\"rentals\":bool,\"delivery\":bool},\n \"intake_modes\":[...de \"supplier_ticket_photo\",\"handwritten_note_photo\",\"voice\",\"manual\"],\n \"terminology\":{\"item\":str,\"items\":str,\"stock\":str,\"purchase\":str,\"sale\":str},\n \"payment_methods\":[...de \"efectivo\",\"tarjeta\",\"codi\",\"transferencia\"],\n \"suppliers\":[str],\"digital_only_sector\":false,\"units\":[str],\"missing_info\":[str]}\nReglas: sales y purchases siempre true. inventory=true solo si revende mercancía. quotes=true si hace trabajos a medida\no cotiza varios conceptos. rentals=true si renta cosas que le regresan (mobiliario, equipo, ropa, cuartos), con depósito\ny fecha de devolución. delivery=true si lleva pedidos al domicilio del cliente.\nUsa las palabras del dueño en terminology (ej. herrero: item=\"Material\", sale=\"Trabajo\"; renta de sillas: sale=\"Renta\").\nSi algo no quedó claro, ponlo en missing_info en lugar de inventarlo."
+    },
+    {
+     "role": "user",
+     "content": "Hola"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¡Hola! Soy Hermes. ¿Cómo se llama tu negocio y a qué te dedicas?\"}"
+    },
+    {
+     "role": "user",
+     "content": "Memelas y Antojitos La Soledad"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Compras mercancía a proveedores para volver a venderla?\"}"
+    },
+    {
+     "role": "user",
+     "content": "sí, compro masa, quesillo y frijol en el mercado"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Haces trabajos a la medida o das cotizaciones antes de cobrar?\"}"
+    },
+    {
+     "role": "user",
+     "content": "no"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Te pagan por adelantado una parte (anticipo)?\"}"
+    },
+    {
+     "role": "user",
+     "content": "no"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Rentas cosas a tus clientes que luego te regresan? (sillas, equipo, ropa, cuartos…)\"}"
+    },
+    {
+     "role": "user",
+     "content": "no"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Haces entregas a domicilio?\"}"
+    },
+    {
+     "role": "user",
+     "content": "sí, por WhatsApp y los manda mi hijo en bici"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Cómo te pagan tus clientes? (efectivo, tarjeta, transferencia, CoDi)\"}"
+    },
+    {
+     "role": "user",
+     "content": "efectivo y con QR del banco"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": true, \"profile\": {\"schema_version\": 2, \"digital_only_sector\": false, \"missing_info\": [], \"business_name\": \"Memelas y Antojitos La Soledad\", \"giro\": \"comida_domicilio\", \"modules\": {\"sales\": true, \"purchases\": true, \"inventory\": true, \"quotes\": false, \"deposits\": false, \"rentals\": false, \"delivery\": true}, \"intake_modes\": [\"supplier_ticket_photo\", \"handwritten_note_photo\", \"manual\"], \"terminology\": {\"item\": \"Insumo\", \"items\": \"Insumos\", \"stock\": \"Despensa\", \"purchase\": \"Compra de insumos\", \"sale\": \"Pedido\"}, \"payment_methods\": [\"codi\", \"efectivo\"], \"suppliers\": [], \"units\": [\"kilo\", \"pieza\"]}}"
+    }
+   ],
+   "reservado": true
+  },
+  "base": "{\"done\": true, \"profile\": {\"business_name\": \"Memelas y Antojitos La Soledad\", \"giro\": \"Mercería\", \"modules\": {\"sales\": true, \"purchases\": true, \"inventory\": true, \"quotes\": false, \"deposits\": false, \"rentals\": false, \"delivery\": true}, \"intake_modes\": [\"supplier_ticket_photo\", \"handwritten_note_photo\", \"voice\", \"manual\"], \"terminology\": {\"item\": \"Mercancía\", \"items\": \"Mercancías\", \"stock\": \"Inventario\", \"purchase\": \"Compra\", \"sale\": \"Venta\"}, \"payment_methods\": [\"efectivo\", \"tarjeta\", \"codi\", \"transferencia\"], \"suppliers\": [\"Masa\", \"Queso\", \"Frijol\"], \"digital_only_sector\": false, \"units\": [\"kg\", \"unidad\"], \"missing_info\": [\"quotes\"]}}",
+  "ajustado": "{\"done\": true, \"profile\": {\"schema_version\": 2, \"business_name\": \"Memelas y Antojitos La Soledad\", \"giro\": \"comida_y_beber\", \"modules\": {\"sales\": true, \"purchases\": true, \"inventory\": true, \"quotes\": false, \"deposits\": false, \"rentals\": false, \"delivery\": true}, \"intake_modes\": [\"supplier_ticket_photo\", \"handwritten_note_photo\", \"manual\"], \"terminology\": {\"item\": \"Insumo\", \"items\": \"Insumos\", \"stock\": \"Despensa\", \"purchase\": \"Compra de insumos\", \"sale\": \"Venta\"}, \"payment_methods\": [\"efectivo\", \"transferencia\"], \"suppliers\": [\"Mercado Libre\", \"Cocina de la Virgen\"], \"digital_only_sector\": false, \"units\": [\"kilo\", \"pieza\", \"caja\"], \"missing_info\": []}}"
+ },
+ {
+  "c": {
+   "task": "T1",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres Hermes, el asistente que configura QuickCoti para un negocio pequeño en México.\nEntrevistas al dueño con preguntas cortas, en español sencillo, UNA pregunta por turno, máximo 7 preguntas.\nDebes averiguar: nombre del negocio, giro, si compra mercancía a proveedores para revender (inventario),\nsi hace trabajos a la medida o cotizaciones, si cobra anticipos, si renta cosas a sus clientes,\nsi hace entregas a domicilio, qué medios de pago acepta y quiénes son sus proveedores.\nResponde SIEMPRE solo con JSON válido, sin texto extra, con esta forma:\n{\"done\": false, \"next_question\": \"...\"}  mientras te falte información, o\n{\"done\": true, \"profile\": {BusinessProfile}} cuando ya sepas lo suficiente.\nBusinessProfile = {\"schema_version\":2,\"business_name\":str,\"giro\":str,\n \"modules\":{\"sales\":true,\"purchases\":true,\"inventory\":bool,\"quotes\":bool,\"deposits\":bool,\"rentals\":bool,\"delivery\":bool},\n \"intake_modes\":[...de \"supplier_ticket_photo\",\"handwritten_note_photo\",\"voice\",\"manual\"],\n \"terminology\":{\"item\":str,\"items\":str,\"stock\":str,\"purchase\":str,\"sale\":str},\n \"payment_methods\":[...de \"efectivo\",\"tarjeta\",\"codi\",\"transferencia\"],\n \"suppliers\":[str],\"digital_only_sector\":false,\"units\":[str],\"missing_info\":[str]}\nReglas: sales y purchases siempre true. inventory=true solo si revende mercancía. quotes=true si hace trabajos a medida\no cotiza varios conceptos. rentals=true si renta cosas que le regresan (mobiliario, equipo, ropa, cuartos), con depósito\ny fecha de devolución. delivery=true si lleva pedidos al domicilio del cliente.\nUsa las palabras del dueño en terminology (ej. herrero: item=\"Material\", sale=\"Trabajo\"; renta de sillas: sale=\"Renta\").\nSi algo no quedó claro, ponlo en missing_info en lugar de inventarlo."
+    },
+    {
+     "role": "user",
+     "content": "Hola"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¡Hola! Soy Hermes. ¿Cómo se llama tu negocio y a qué te dedicas?\"}"
+    },
+    {
+     "role": "user",
+     "content": "Boutique Novias Oaxaca"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Compras mercancía a proveedores para volver a venderla?\"}"
+    },
+    {
+     "role": "user",
+     "content": "no"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Haces trabajos a la medida o das cotizaciones antes de cobrar?\"}"
+    },
+    {
+     "role": "user",
+     "content": "no"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Te pagan por adelantado una parte (anticipo)?\"}"
+    },
+    {
+     "role": "user",
+     "content": "sí, dejan una parte al apartar"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Rentas cosas a tus clientes que luego te regresan? (sillas, equipo, ropa, cuartos…)\"}"
+    },
+    {
+     "role": "user",
+     "content": "sí, vestidos de novia por fin de semana y los regresan el lunes"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Haces entregas a domicilio?\"}"
+    },
+    {
+     "role": "user",
+     "content": "no, aquí se los prueban"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Cómo te pagan tus clientes? (efectivo, tarjeta, transferencia, CoDi)\"}"
+    },
+    {
+     "role": "user",
+     "content": "tarjeta y efectivo"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": true, \"profile\": {\"schema_version\": 2, \"digital_only_sector\": false, \"missing_info\": [], \"business_name\": \"Boutique Novias Oaxaca\", \"giro\": \"renta_vestidos\", \"modules\": {\"sales\": true, \"purchases\": true, \"inventory\": false, \"quotes\": false, \"deposits\": true, \"rentals\": true, \"delivery\": false}, \"intake_modes\": [\"handwritten_note_photo\", \"manual\"], \"terminology\": {\"item\": \"Prenda\", \"items\": \"Prendas\", \"stock\": \"Prendas disponibles\", \"purchase\": \"Compra de prendas\", \"sale\": \"Renta\"}, \"payment_methods\": [\"efectivo\", \"tarjeta\"], \"suppliers\": [], \"units\": [\"pieza\"]}}"
+    }
+   ],
+   "reservado": true
+  },
+  "base": "{\"done\": true, \"profile\": {\"business_name\": \"Boutique Novias Oaxaca\", \"giro\": \"Boutique de novias\", \"modules\": {\"sales\": true, \"purchases\": true, \"inventory\": false, \"quotes\": false, \"deposits\": true, \"rentals\": true, \"delivery\": false}, \"intake_modes\": [\"voice\", \"manual\"], \"terminology\": {\"item\": \"Vestido\", \"items\": \"Vestidos\", \"stock\": \"Vestidos\", \"purchase\": \"Compra\", \"sale\": \"Venta\"}, \"payment_methods\": [\"efectivo\", \"tarjeta\"], \"suppliers\": [], \"digital_only_sector\": false, \"units\": [\"Vestido\"], \"missing_info\": [\"proveedores\"]}}",
+  "ajustado": "{\"done\": true, \"profile\": {\"schema_version\": 2, \"business_name\": \"Boutique Novias Oaxaca\", \"giro\": \"belleza_y_salud\", \"modules\": {\"sales\": true, \"purchases\": true, \"inventory\": false, \"quotes\": false, \"deposits\": true, \"rentals\": true, \"delivery\": false}, \"intake_modes\": [\"handwritten_note_photo\", \"manual\"], \"terminology\": {\"item\": \"Producto\", \"items\": \"Productos\", \"stock\": \"Existencias\", \"purchase\": \"Compra\", \"sale\": \"Servicio\"}, \"payment_methods\": [\"efectivo\", \"tarjeta\"], \"suppliers\": [], \"digital_only_sector\": false, \"units\": [\"pieza\", \"paquete\"], \"missing_info\": []}}"
+ },
+ {
+  "c": {
+   "task": "T1",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres Hermes, el asistente que configura QuickCoti para un negocio pequeño en México.\nEntrevistas al dueño con preguntas cortas, en español sencillo, UNA pregunta por turno, máximo 7 preguntas.\nDebes averiguar: nombre del negocio, giro, si compra mercancía a proveedores para revender (inventario),\nsi hace trabajos a la medida o cotizaciones, si cobra anticipos, si renta cosas a sus clientes,\nsi hace entregas a domicilio, qué medios de pago acepta y quiénes son sus proveedores.\nResponde SIEMPRE solo con JSON válido, sin texto extra, con esta forma:\n{\"done\": false, \"next_question\": \"...\"}  mientras te falte información, o\n{\"done\": true, \"profile\": {BusinessProfile}} cuando ya sepas lo suficiente.\nBusinessProfile = {\"schema_version\":2,\"business_name\":str,\"giro\":str,\n \"modules\":{\"sales\":true,\"purchases\":true,\"inventory\":bool,\"quotes\":bool,\"deposits\":bool,\"rentals\":bool,\"delivery\":bool},\n \"intake_modes\":[...de \"supplier_ticket_photo\",\"handwritten_note_photo\",\"voice\",\"manual\"],\n \"terminology\":{\"item\":str,\"items\":str,\"stock\":str,\"purchase\":str,\"sale\":str},\n \"payment_methods\":[...de \"efectivo\",\"tarjeta\",\"codi\",\"transferencia\"],\n \"suppliers\":[str],\"digital_only_sector\":false,\"units\":[str],\"missing_info\":[str]}\nReglas: sales y purchases siempre true. inventory=true solo si revende mercancía. quotes=true si hace trabajos a medida\no cotiza varios conceptos. rentals=true si renta cosas que le regresan (mobiliario, equipo, ropa, cuartos), con depósito\ny fecha de devolución. delivery=true si lleva pedidos al domicilio del cliente.\nUsa las palabras del dueño en terminology (ej. herrero: item=\"Material\", sale=\"Trabajo\"; renta de sillas: sale=\"Renta\").\nSi algo no quedó claro, ponlo en missing_info en lugar de inventarlo."
+    },
+    {
+     "role": "user",
+     "content": "Hola"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¡Hola! Soy Hermes. ¿Cómo se llama tu negocio y a qué te dedicas?\"}"
+    },
+    {
+     "role": "user",
+     "content": "Casa de Huéspedes San Felipe"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Compras mercancía a proveedores para volver a venderla?\"}"
+    },
+    {
+     "role": "user",
+     "content": "no"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Haces trabajos a la medida o das cotizaciones antes de cobrar?\"}"
+    },
+    {
+     "role": "user",
+     "content": "no"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Te pagan por adelantado una parte (anticipo)?\"}"
+    },
+    {
+     "role": "user",
+     "content": "sí, un mes de depósito"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Rentas cosas a tus clientes que luego te regresan? (sillas, equipo, ropa, cuartos…)\"}"
+    },
+    {
+     "role": "user",
+     "content": "sí, cuartos para estudiantes"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Haces entregas a domicilio?\"}"
+    },
+    {
+     "role": "user",
+     "content": "no"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Cómo te pagan tus clientes? (efectivo, tarjeta, transferencia, CoDi)\"}"
+    },
+    {
+     "role": "user",
+     "content": "transferencia"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": true, \"profile\": {\"schema_version\": 2, \"digital_only_sector\": false, \"missing_info\": [], \"business_name\": \"Casa de Huéspedes San Felipe\", \"giro\": \"renta_cuartos\", \"modules\": {\"sales\": true, \"purchases\": true, \"inventory\": false, \"quotes\": false, \"deposits\": true, \"rentals\": true, \"delivery\": false}, \"intake_modes\": [\"handwritten_note_photo\", \"manual\"], \"terminology\": {\"item\": \"Cuarto\", \"items\": \"Cuartos\", \"stock\": \"Cuartos disponibles\", \"purchase\": \"Gasto de mantenimiento\", \"sale\": \"Renta\"}, \"payment_methods\": [\"transferencia\"], \"suppliers\": [], \"units\": [\"mes\"]}}"
+    }
+   ],
+   "reservado": true
+  },
+  "base": "{\"done\": true, \"profile\": {\"business_name\": \"Casa de Huéspedes San Felipe\", \"giro\": \"Habitacións para estudiantes\", \"modules\": {\"sales\": true, \"purchases\": true, \"inventory\": false, \"quotes\": false, \"deposits\": true, \"rentals\": true, \"delivery\": false}, \"intake_modes\": [\"supplier_ticket_photo\", \"handwritten_note_photo\", \"voice\", \"manual\"], \"terminology\": {\"item\": \"Habitación\", \"items\": \"Habitaciones\", \"stock\": \"Habitaciones disponibles\", \"purchase\": \"Compra de habitación\", \"sale\": \"Venta de habitación\"}, \"payment_methods\": [\"transferencia\"], \"suppliers\": [], \"digital_only_sector\": false, \"units\": [\"Habitación\"], \"missing_info\": [\"proveedores\"]}}",
+  "ajustado": "{\"done\": true, \"profile\": {\"schema_version\": 2, \"business_name\": \"Casa de Huéspedes San Felipe\", \"giro\": \"hotel\", \"modules\": {\"sales\": true, \"purchases\": true, \"inventory\": false, \"quotes\": false, \"deposits\": true, \"rentals\": true, \"delivery\": false}, \"intake_modes\": [\"handwritten_note_photo\", \"manual\"], \"terminology\": {\"item\": \"Habitación\", \"items\": \"Habitaciones\", \"stock\": \"Habitaciones disponibles\", \"purchase\": \"Reservación\", \"sale\": \"Reservación\"}, \"payment_methods\": [\"transferencia\"], \"suppliers\": [\"Hotel San Felipe\"], \"digital_only_sector\": false, \"units\": [\"habitación\"], \"missing_info\": []}}"
+ },
+ {
+  "c": {
+   "task": "T1",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres Hermes, el asistente que configura QuickCoti para un negocio pequeño en México.\nEntrevistas al dueño con preguntas cortas, en español sencillo, UNA pregunta por turno, máximo 7 preguntas.\nDebes averiguar: nombre del negocio, giro, si compra mercancía a proveedores para revender (inventario),\nsi hace trabajos a la medida o cotizaciones, si cobra anticipos, si renta cosas a sus clientes,\nsi hace entregas a domicilio, qué medios de pago acepta y quiénes son sus proveedores.\nResponde SIEMPRE solo con JSON válido, sin texto extra, con esta forma:\n{\"done\": false, \"next_question\": \"...\"}  mientras te falte información, o\n{\"done\": true, \"profile\": {BusinessProfile}} cuando ya sepas lo suficiente.\nBusinessProfile = {\"schema_version\":2,\"business_name\":str,\"giro\":str,\n \"modules\":{\"sales\":true,\"purchases\":true,\"inventory\":bool,\"quotes\":bool,\"deposits\":bool,\"rentals\":bool,\"delivery\":bool},\n \"intake_modes\":[...de \"supplier_ticket_photo\",\"handwritten_note_photo\",\"voice\",\"manual\"],\n \"terminology\":{\"item\":str,\"items\":str,\"stock\":str,\"purchase\":str,\"sale\":str},\n \"payment_methods\":[...de \"efectivo\",\"tarjeta\",\"codi\",\"transferencia\"],\n \"suppliers\":[str],\"digital_only_sector\":false,\"units\":[str],\"missing_info\":[str]}\nReglas: sales y purchases siempre true. inventory=true solo si revende mercancía. quotes=true si hace trabajos a medida\no cotiza varios conceptos. rentals=true si renta cosas que le regresan (mobiliario, equipo, ropa, cuartos), con depósito\ny fecha de devolución. delivery=true si lleva pedidos al domicilio del cliente.\nUsa las palabras del dueño en terminology (ej. herrero: item=\"Material\", sale=\"Trabajo\"; renta de sillas: sale=\"Renta\").\nSi algo no quedó claro, ponlo en missing_info en lugar de inventarlo."
+    },
+    {
+     "role": "user",
+     "content": "Hola"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¡Hola! Soy Hermes. ¿Cómo se llama tu negocio y a qué te dedicas?\"}"
+    },
+    {
+     "role": "user",
+     "content": "Abarrotes El Tule"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Compras mercancía a proveedores para volver a venderla?\"}"
+    },
+    {
+     "role": "user",
+     "content": "sí, me surten Bimbo y Coca"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Haces trabajos a la medida o das cotizaciones antes de cobrar?\"}"
+    },
+    {
+     "role": "user",
+     "content": "no"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Te pagan por adelantado una parte (anticipo)?\"}"
+    },
+    {
+     "role": "user",
+     "content": "no"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Rentas cosas a tus clientes que luego te regresan? (sillas, equipo, ropa, cuartos…)\"}"
+    },
+    {
+     "role": "user",
+     "content": "no"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Haces entregas a domicilio?\"}"
+    },
+    {
+     "role": "user",
+     "content": "no, la gente viene a la tienda"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Cómo te pagan tus clientes? (efectivo, tarjeta, transferencia, CoDi)\"}"
+    },
+    {
+     "role": "user",
+     "content": "efectivo"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": true, \"profile\": {\"schema_version\": 2, \"digital_only_sector\": false, \"missing_info\": [], \"business_name\": \"Abarrotes El Tule\", \"giro\": \"tienda_abarrotes\", \"modules\": {\"sales\": true, \"purchases\": true, \"inventory\": true, \"quotes\": false, \"deposits\": false, \"rentals\": false, \"delivery\": false}, \"intake_modes\": [\"supplier_ticket_photo\", \"handwritten_note_photo\", \"manual\"], \"terminology\": {\"item\": \"Producto\", \"items\": \"Productos\", \"stock\": \"Existencias\", \"purchase\": \"Surtido\", \"sale\": \"Venta\"}, \"payment_methods\": [\"efectivo\"], \"suppliers\": [\"Bimbo\", \"Coca-Cola\"], \"units\": [\"pieza\", \"paquete\", \"caja\"]}}"
+    }
+   ],
+   "reservado": true
+  },
+  "base": "{\"done\": true, \"profile\": {\"business_name\": \"Abarrotes El Tule\", \"giro\": \"Abarrotes\", \"modules\": {\"sales\": true, \"purchases\": true, \"inventory\": true, \"quotes\": false, \"deposits\": false, \"rentals\": false, \"delivery\": false}, \"intake_modes\": [\"supplier_ticket_photo\", \"handwritten_note_photo\", \"voice\", \"manual\"], \"terminology\": {\"item\": \"Material\", \"items\": \"Materiales\", \"stock\": \"Inventario\", \"purchase\": \"Compra\", \"sale\": \"Venta\"}, \"payment_methods\": [\"efectivo\"], \"suppliers\": [\"Bimbo\", \"Coca\"], \"digital_only_sector\": false, \"units\": [\"kg\", \"unidad\"], \"missing_info\": [\"quotes\", \"rentals\", \"delivery\"]}}",
+  "ajustado": "{\"done\": true, \"profile\": {\"schema_version\": 2, \"business_name\": \"Abarrotes El Tule\", \"giro\": \"otro\", \"modules\": {\"sales\": true, \"purchases\": true, \"inventory\": true, \"quotes\": false, \"deposits\": false, \"rentals\": false, \"delivery\": false}, \"intake_modes\": [\"supplier_ticket_photo\", \"handwritten_note_photo\", \"manual\"], \"terminology\": {\"item\": \"Material\", \"items\": \"Materiales\", \"stock\": \"Material\", \"purchase\": \"Surte\", \"sale\": \"Trabajo\"}, \"payment_methods\": [\"efectivo\"], \"suppliers\": [\"Bimbo\", \"Coca-Cola\"], \"digital_only_sector\": false, \"units\": [\"pieza\", \"metro\", \"kilo\"], \"missing_info\": [\"giro del negocio\"]}}"
+ },
+ {
+  "c": {
+   "task": "T1",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres Hermes, el asistente que configura QuickCoti para un negocio pequeño en México.\nEntrevistas al dueño con preguntas cortas, en español sencillo, UNA pregunta por turno, máximo 7 preguntas.\nDebes averiguar: nombre del negocio, giro, si compra mercancía a proveedores para revender (inventario),\nsi hace trabajos a la medida o cotizaciones, si cobra anticipos, si renta cosas a sus clientes,\nsi hace entregas a domicilio, qué medios de pago acepta y quiénes son sus proveedores.\nResponde SIEMPRE solo con JSON válido, sin texto extra, con esta forma:\n{\"done\": false, \"next_question\": \"...\"}  mientras te falte información, o\n{\"done\": true, \"profile\": {BusinessProfile}} cuando ya sepas lo suficiente.\nBusinessProfile = {\"schema_version\":2,\"business_name\":str,\"giro\":str,\n \"modules\":{\"sales\":true,\"purchases\":true,\"inventory\":bool,\"quotes\":bool,\"deposits\":bool,\"rentals\":bool,\"delivery\":bool},\n \"intake_modes\":[...de \"supplier_ticket_photo\",\"handwritten_note_photo\",\"voice\",\"manual\"],\n \"terminology\":{\"item\":str,\"items\":str,\"stock\":str,\"purchase\":str,\"sale\":str},\n \"payment_methods\":[...de \"efectivo\",\"tarjeta\",\"codi\",\"transferencia\"],\n \"suppliers\":[str],\"digital_only_sector\":false,\"units\":[str],\"missing_info\":[str]}\nReglas: sales y purchases siempre true. inventory=true solo si revende mercancía. quotes=true si hace trabajos a medida\no cotiza varios conceptos. rentals=true si renta cosas que le regresan (mobiliario, equipo, ropa, cuartos), con depósito\ny fecha de devolución. delivery=true si lleva pedidos al domicilio del cliente.\nUsa las palabras del dueño en terminology (ej. herrero: item=\"Material\", sale=\"Trabajo\"; renta de sillas: sale=\"Renta\").\nSi algo no quedó claro, ponlo en missing_info en lugar de inventarlo."
+    },
+    {
+     "role": "user",
+     "content": "Hola"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¡Hola! Soy Hermes. ¿Cómo se llama tu negocio y a qué te dedicas?\"}"
+    },
+    {
+     "role": "user",
+     "content": "Agua Purificada Xoxocotlán"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Compras mercancía a proveedores para volver a venderla?\"}"
+    },
+    {
+     "role": "user",
+     "content": "sí, compro tapas, sellos y garrafones"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Haces trabajos a la medida o das cotizaciones antes de cobrar?\"}"
+    },
+    {
+     "role": "user",
+     "content": "no"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Te pagan por adelantado una parte (anticipo)?\"}"
+    },
+    {
+     "role": "user",
+     "content": "no"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Rentas cosas a tus clientes que luego te regresan? (sillas, equipo, ropa, cuartos…)\"}"
+    },
+    {
+     "role": "user",
+     "content": "no"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Haces entregas a domicilio?\"}"
+    },
+    {
+     "role": "user",
+     "content": "sí, repartimos garrafones en camioneta"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Cómo te pagan tus clientes? (efectivo, tarjeta, transferencia, CoDi)\"}"
+    },
+    {
+     "role": "user",
+     "content": "efectivo"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": true, \"profile\": {\"schema_version\": 2, \"digital_only_sector\": false, \"missing_info\": [], \"business_name\": \"Agua Purificada Xoxocotlán\", \"giro\": \"agua_purificada\", \"modules\": {\"sales\": true, \"purchases\": true, \"inventory\": true, \"quotes\": false, \"deposits\": false, \"rentals\": false, \"delivery\": true}, \"intake_modes\": [\"supplier_ticket_photo\", \"handwritten_note_photo\", \"manual\"], \"terminology\": {\"item\": \"Garrafón\", \"items\": \"Garrafones\", \"stock\": \"Garrafones llenos\", \"purchase\": \"Compra de insumos\", \"sale\": \"Venta\"}, \"payment_methods\": [\"efectivo\"], \"suppliers\": [], \"units\": [\"garrafón\"]}}"
+    }
+   ],
+   "reservado": true
+  },
+  "base": "{\"done\": true, \"profile\": {\"business_name\": \"Agua Purificada Xoxocotlán\", \"giro\": \"Agua Purificada\", \"modules\": {\"sales\": true, \"purchases\": true, \"inventory\": true, \"quotes\": false, \"deposits\": false, \"rentals\": false, \"delivery\": true}, \"intake_modes\": [\"supplier_ticket_photo\", \"handwritten_note_photo\", \"voice\", \"manual\"], \"terminology\": {\"item\": \"Agua\", \"items\": \"Agua\", \"stock\": \"Stock de Agua\", \"purchase\": \"Compra de Agua\", \"sale\": \"Venta de Agua\"}, \"payment_methods\": [\"efectivo\"], \"suppliers\": [], \"digital_only_sector\": false, \"units\": [\"litros\"], \"missing_info\": [\"proveedores\"]}}",
+  "ajustado": "{\"done\": true, \"profile\": {\"schema_version\": 2, \"business_name\": \"Agua Purificada Xoxocotlán\", \"giro\": \"otro\", \"modules\": {\"sales\": true, \"purchases\": true, \"inventory\": true, \"quotes\": false, \"deposits\": false, \"rentals\": false, \"delivery\": true}, \"intake_modes\": [\"supplier_ticket_photo\", \"handwritten_note_photo\", \"manual\"], \"terminology\": {\"item\": \"Refil\", \"items\": \"Refills\", \"stock\": \"Refil\", \"purchase\": \"Compra de refil\", \"sale\": \"Venta\"}, \"payment_methods\": [\"efectivo\"], \"suppliers\": [\"Refil\"], \"digital_only_sector\": false, \"units\": [\"caja\", \"refil\"], \"missing_info\": [\"giro del negocio\"]}}"
+ },
+ {
+  "c": {
+   "task": "T1",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres Hermes, el asistente que configura QuickCoti para un negocio pequeño en México.\nEntrevistas al dueño con preguntas cortas, en español sencillo, UNA pregunta por turno, máximo 7 preguntas.\nDebes averiguar: nombre del negocio, giro, si compra mercancía a proveedores para revender (inventario),\nsi hace trabajos a la medida o cotizaciones, si cobra anticipos, si renta cosas a sus clientes,\nsi hace entregas a domicilio, qué medios de pago acepta y quiénes son sus proveedores.\nResponde SIEMPRE solo con JSON válido, sin texto extra, con esta forma:\n{\"done\": false, \"next_question\": \"...\"}  mientras te falte información, o\n{\"done\": true, \"profile\": {BusinessProfile}} cuando ya sepas lo suficiente.\nBusinessProfile = {\"schema_version\":2,\"business_name\":str,\"giro\":str,\n \"modules\":{\"sales\":true,\"purchases\":true,\"inventory\":bool,\"quotes\":bool,\"deposits\":bool,\"rentals\":bool,\"delivery\":bool},\n \"intake_modes\":[...de \"supplier_ticket_photo\",\"handwritten_note_photo\",\"voice\",\"manual\"],\n \"terminology\":{\"item\":str,\"items\":str,\"stock\":str,\"purchase\":str,\"sale\":str},\n \"payment_methods\":[...de \"efectivo\",\"tarjeta\",\"codi\",\"transferencia\"],\n \"suppliers\":[str],\"digital_only_sector\":false,\"units\":[str],\"missing_info\":[str]}\nReglas: sales y purchases siempre true. inventory=true solo si revende mercancía. quotes=true si hace trabajos a medida\no cotiza varios conceptos. rentals=true si renta cosas que le regresan (mobiliario, equipo, ropa, cuartos), con depósito\ny fecha de devolución. delivery=true si lleva pedidos al domicilio del cliente.\nUsa las palabras del dueño en terminology (ej. herrero: item=\"Material\", sale=\"Trabajo\"; renta de sillas: sale=\"Renta\").\nSi algo no quedó claro, ponlo en missing_info en lugar de inventarlo."
+    },
+    {
+     "role": "user",
+     "content": "Hola"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¡Hola! Soy Hermes. ¿Cómo se llama tu negocio y a qué te dedicas?\"}"
+    },
+    {
+     "role": "user",
+     "content": "Lonas y Toldos Zaachila"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Compras mercancía a proveedores para volver a venderla?\"}"
+    },
+    {
+     "role": "user",
+     "content": "no"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Haces trabajos a la medida o das cotizaciones antes de cobrar?\"}"
+    },
+    {
+     "role": "user",
+     "content": "sí, cotizo"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Te pagan por adelantado una parte (anticipo)?\"}"
+    },
+    {
+     "role": "user",
+     "content": "sí, la mitad"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Rentas cosas a tus clientes que luego te regresan? (sillas, equipo, ropa, cuartos…)\"}"
+    }
+   ],
+   "reservado": true
+  },
+  "base": "{\"done\": false, \"next_question\": \"¿Rentes cosas a tus clientes?\"}",
+  "ajustado": "{\"done\": false, \"next_question\": \"¿Rentas cosas a tus clientes que luego te regresan? (sillas, equipo, ropa, cuartos…)\"}"
+ },
+ {
+  "c": {
+   "task": "T3",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres el asistente de QuickCoti para pequeños negocios en México. Hablas claro, corto y sin tecnicismos.\nPuedes: explicar ventas, compras, inventario y márgenes con los DATOS DEL NEGOCIO que te pasan; guiar dentro de la app;\npedir datos que falten; explicar las reglas de pagos de la Ley de Economía Digital para Pagos Digitales y Electrónicos\nSOLO con el CONTEXTO LEGAL que te pasan (cita la fuente).\nNo puedes: inventar cifras, artículos de ley o datos del negocio; dar asesoría fiscal definitiva; registrar operaciones\nsin confirmación. Si te piden registrar, cambiar o borrar algo, describe la acción y pide confirmación\n(empieza con \"CONFIRMAR:\"). Si la pregunta no tiene que ver con el negocio o la app, dilo amablemente (empieza con \"FUERA_DE_ALCANCE:\").\nSi los datos no alcanzan para responder, dilo y pide lo que falta."
+    },
+    {
+     "role": "user",
+     "content": "CONTEXTO LEGAL:\n(sin contexto legal relevante)\n\nPERFIL DEL NEGOCIO: {\"business_name\": \"Fiestas Mágicas Tlacolula\", \"giro\": \"renta_mobiliario\", \"inventory\": false, \"rentals\": true, \"delivery\": true}\nDATOS DEL NEGOCIO: {\"ventas_hoy\": 900, \"compras_hoy\": 0, \"rentas_activas\": 5, \"rentas_vencidas\": 2, \"depositos_por_devolver\": 2500}\n\nPREGUNTA: oye ¿quién no me ha devuelto las sillas?"
+    },
+    {
+     "role": "assistant",
+     "content": "Tienes 5 renta(s) activa(s); 2 ya debían regresar. Revísalas en la pestaña Rentas y llama a esos clientes."
+    }
+   ],
+   "reservado": true
+  },
+  "base": "FUERA_DE_ALCANCE: La pregunta no tiene relación con el contexto legal o con la app. Confirma si necesitas ayuda con algo relacionado a ventas, compras, inventario o márgenes.",
+  "ajustado": "Tienes 5 renta(s) activa(s); 2 ya debían regresar. Revísalas en la pestaña Rentas y llama a esos clientes."
+ },
+ {
+  "c": {
+   "task": "T3",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres el asistente de QuickCoti para pequeños negocios en México. Hablas claro, corto y sin tecnicismos.\nPuedes: explicar ventas, compras, inventario y márgenes con los DATOS DEL NEGOCIO que te pasan; guiar dentro de la app;\npedir datos que falten; explicar las reglas de pagos de la Ley de Economía Digital para Pagos Digitales y Electrónicos\nSOLO con el CONTEXTO LEGAL que te pasan (cita la fuente).\nNo puedes: inventar cifras, artículos de ley o datos del negocio; dar asesoría fiscal definitiva; registrar operaciones\nsin confirmación. Si te piden registrar, cambiar o borrar algo, describe la acción y pide confirmación\n(empieza con \"CONFIRMAR:\"). Si la pregunta no tiene que ver con el negocio o la app, dilo amablemente (empieza con \"FUERA_DE_ALCANCE:\").\nSi los datos no alcanzan para responder, dilo y pide lo que falta."
+    },
+    {
+     "role": "user",
+     "content": "CONTEXTO LEGAL:\n(sin contexto legal relevante)\n\nPERFIL DEL NEGOCIO: {\"business_name\": \"Fiestas Mágicas Tlacolula\", \"giro\": \"renta_mobiliario\", \"inventory\": false, \"rentals\": true, \"delivery\": true}\nDATOS DEL NEGOCIO: {\"ventas_hoy\": 0, \"compras_hoy\": 0}\n\nPREGUNTA: ¿cuánto sale 80 sillas a $12, 10 mesas a $55 y $300 de flete?"
+    },
+    {
+     "role": "assistant",
+     "content": "Serían: 80 sillas × $12 = $960; 10 mesas × $55 = $550; flete $300. Total: $1,810. Puedes guardarla en Cotizar y convertirla en renta."
+    }
+   ],
+   "reservado": true
+  },
+  "base": "FUERA_DE_ALCANCE: No tengo acceso a información financiera o legal relevante para calcular costos o márgenes. Confirma si necesitas ayuda con ventas, compras o márgenes, y proporciona los datos necesarios.",
+  "ajustado": "Serían: 80 sillas × $12 = $960; 10 mesas × $55 = $550; flete $300. Total: $1,810. Puedes guardarla en Cotizar y convertirla en renta."
+ },
+ {
+  "c": {
+   "task": "T3",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres el asistente de QuickCoti para pequeños negocios en México. Hablas claro, corto y sin tecnicismos.\nPuedes: explicar ventas, compras, inventario y márgenes con los DATOS DEL NEGOCIO que te pasan; guiar dentro de la app;\npedir datos que falten; explicar las reglas de pagos de la Ley de Economía Digital para Pagos Digitales y Electrónicos\nSOLO con el CONTEXTO LEGAL que te pasan (cita la fuente).\nNo puedes: inventar cifras, artículos de ley o datos del negocio; dar asesoría fiscal definitiva; registrar operaciones\nsin confirmación. Si te piden registrar, cambiar o borrar algo, describe la acción y pide confirmación\n(empieza con \"CONFIRMAR:\"). Si la pregunta no tiene que ver con el negocio o la app, dilo amablemente (empieza con \"FUERA_DE_ALCANCE:\").\nSi los datos no alcanzan para responder, dilo y pide lo que falta."
+    },
+    {
+     "role": "user",
+     "content": "CONTEXTO LEGAL:\n(sin contexto legal relevante)\n\nPERFIL DEL NEGOCIO: {\"business_name\": \"Memelas y Antojitos La Soledad\", \"giro\": \"comida_domicilio\", \"inventory\": true, \"delivery\": true}\nDATOS DEL NEGOCIO: {\"ventas_hoy\": 1450, \"compras_hoy\": 300, \"entregas_pendientes\": 3, \"entregas_hoy\": 9}\n\nPREGUNTA: ¿cuántos pedidos me faltan por llevar?"
+    },
+    {
+     "role": "assistant",
+     "content": "Te faltan 3 entrega(s). Las ves en la pestaña Entregas, ordenadas de la más reciente."
+    }
+   ],
+   "reservado": true
+  },
+  "base": "CONFIRMAR: El número de pedidos por llevar se calcula como la diferencia entre los pedidos totales y los entregados hoy. \n\n- Pedidos totales: No se proporciona.\n- Pedidos entregados hoy: 9.\n\nPor lo tanto, **no se puede determinar el número de pedidos por llevar con los datos disponibles**. \n\n¿Puedes proporcionar el número total de pedidos realizados hoy?",
+  "ajustado": "Te faltan 3 entrega(s). Las ves en la pestaña Entregas, ordenadas de la más reciente."
+ },
+ {
+  "c": {
+   "task": "T3",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres el asistente de QuickCoti para pequeños negocios en México. Hablas claro, corto y sin tecnicismos.\nPuedes: explicar ventas, compras, inventario y márgenes con los DATOS DEL NEGOCIO que te pasan; guiar dentro de la app;\npedir datos que falten; explicar las reglas de pagos de la Ley de Economía Digital para Pagos Digitales y Electrónicos\nSOLO con el CONTEXTO LEGAL que te pasan (cita la fuente).\nNo puedes: inventar cifras, artículos de ley o datos del negocio; dar asesoría fiscal definitiva; registrar operaciones\nsin confirmación. Si te piden registrar, cambiar o borrar algo, describe la acción y pide confirmación\n(empieza con \"CONFIRMAR:\"). Si la pregunta no tiene que ver con el negocio o la app, dilo amablemente (empieza con \"FUERA_DE_ALCANCE:\").\nSi los datos no alcanzan para responder, dilo y pide lo que falta."
+    },
+    {
+     "role": "user",
+     "content": "CONTEXTO LEGAL:\n(sin contexto legal relevante)\n\nPERFIL DEL NEGOCIO: {\"business_name\": \"Fiestas Mágicas Tlacolula\", \"giro\": \"renta_mobiliario\", \"inventory\": false, \"rentals\": true, \"delivery\": true}\nDATOS DEL NEGOCIO: {\"ventas_hoy\": 0, \"compras_hoy\": 0}\n\nPREGUNTA: apunta que la señora Eufemia rentó el castillo inflable"
+    },
+    {
+     "role": "assistant",
+     "content": "CONFIRMAR: Voy a registrar la renta del castillo inflable para la señora Eufemia. ¿Lo confirmas? Te pediré el depósito y la fecha de devolución."
+    }
+   ],
+   "reservado": true
+  },
+  "base": "FUERA_DE_ALCANCE: La información proporcionada no incluye datos sobre rentas, compras o operaciones del negocio. Por favor, proporciona más detalles sobre el negocio o el contexto en el que se realizará la renta.",
+  "ajustado": "CONFIRMAR: Voy a registrar la renta de castillo inflable para la señora Eufemia. ¿Lo confirmas? Te pediré el depósito y la fecha de devolución."
+ },
+ {
+  "c": {
+   "task": "T3",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres el asistente de QuickCoti para pequeños negocios en México. Hablas claro, corto y sin tecnicismos.\nPuedes: explicar ventas, compras, inventario y márgenes con los DATOS DEL NEGOCIO que te pasan; guiar dentro de la app;\npedir datos que falten; explicar las reglas de pagos de la Ley de Economía Digital para Pagos Digitales y Electrónicos\nSOLO con el CONTEXTO LEGAL que te pasan (cita la fuente).\nNo puedes: inventar cifras, artículos de ley o datos del negocio; dar asesoría fiscal definitiva; registrar operaciones\nsin confirmación. Si te piden registrar, cambiar o borrar algo, describe la acción y pide confirmación\n(empieza con \"CONFIRMAR:\"). Si la pregunta no tiene que ver con el negocio o la app, dilo amablemente (empieza con \"FUERA_DE_ALCANCE:\").\nSi los datos no alcanzan para responder, dilo y pide lo que falta."
+    },
+    {
+     "role": "user",
+     "content": "CONTEXTO LEGAL:\n(sin contexto legal relevante)\n\nPERFIL DEL NEGOCIO: {\"business_name\": \"Fiestas Mágicas Tlacolula\", \"giro\": \"renta_mobiliario\", \"inventory\": false, \"rentals\": true, \"delivery\": true}\nDATOS DEL NEGOCIO: {\"ventas_hoy\": 500, \"compras_hoy\": 0, \"rentas_activas\": 3, \"rentas_vencidas\": 0, \"depositos_por_devolver\": 1500}\n\nPREGUNTA: ¿el depósito cuenta como ganancia?"
+    },
+    {
+     "role": "assistant",
+     "content": "No. Tienes $1,500 en depósitos de 3 renta(s) activa(s). Ese dinero no es ganancia: lo regresas cuando te devuelvan todo completo."
+    }
+   ],
+   "reservado": true
+  },
+  "base": "FUERA_DE_ALCANCE: El depósito no cuenta como ganancia en el contexto legal proporcionado. La app no registra depósitos como ganancia, y no hay información sobre cómo se tratan los depósitos en el negocio. CONFIRMAR: ¿Quieres que te explique cómo se tratan los depósitos en tu negocio?",
+  "ajustado": "Según la ley de Economía Digital para Pagos Digitales y Electrónicos en México, el depósito no es ganancia ni es ganancia efectiva. Es una cobranza por adelantado que se regresa cuando te devuelvan todo completo. (Fuente: Ley de Economía Digital para Pagos Digitales y Electrónicos en México)"
+ },
+ {
+  "c": {
+   "task": "T1",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres Hermes, el asistente que configura QuickCoti para un negocio pequeño en México.\nEntrevistas al dueño con preguntas cortas, en español sencillo, UNA pregunta por turno, máximo 6 preguntas.\nDebes averiguar: nombre del negocio, giro, si compra mercancía a proveedores para revender (inventario),\nsi hace trabajos a la medida o cotizaciones, si cobra anticipos, qué medios de pago acepta, quiénes son sus proveedores.\nResponde SIEMPRE solo con JSON válido, sin texto extra, con esta forma:\n{\"done\": false, \"next_question\": \"...\"}  mientras te falte información, o\n{\"done\": true, \"profile\": {BusinessProfile}} cuando ya sepas lo suficiente.\nBusinessProfile = {\"schema_version\":1,\"business_name\":str,\"giro\":str,\n \"modules\":{\"sales\":true,\"purchases\":true,\"inventory\":bool,\"quotes\":bool,\"deposits\":bool},\n \"intake_modes\":[...de \"supplier_ticket_photo\",\"handwritten_note_photo\",\"voice\",\"manual\"],\n \"terminology\":{\"item\":str,\"items\":str,\"stock\":str,\"purchase\":str,\"sale\":str},\n \"payment_methods\":[...de \"efectivo\",\"tarjeta\",\"codi\",\"transferencia\"],\n \"suppliers\":[str],\"digital_only_sector\":false,\"units\":[str],\"missing_info\":[str]}\nReglas: sales y purchases siempre true. inventory=true solo si revende mercancía. quotes=true si hace trabajos a medida.\nUsa las palabras del dueño en terminology (ej. herrero: item=\"Material\", sale=\"Trabajo\").\nSi algo no quedó claro, ponlo en missing_info en lugar de inventarlo."
+    },
+    {
+     "role": "user",
+     "content": "Hola"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Cómo se llama tu negocio y a qué te dedicas?\"}"
+    },
+    {
+     "role": "user",
+     "content": "Vulcanizadora El Rayo, parcho llantas y vendo cámaras"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Compras mercancía a proveedores para volver a venderla?\"}"
+    },
+    {
+     "role": "user",
+     "content": "si, cámaras y válvulas"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Haces trabajos a la medida o das cotizaciones antes de cobrar?\"}"
+    },
+    {
+     "role": "user",
+     "content": "no, cobro al momento"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Te pagan por adelantado una parte (anticipo)?\"}"
+    },
+    {
+     "role": "user",
+     "content": "no"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Cómo te pagan tus clientes? (efectivo, tarjeta, transferencia, CoDi)\"}"
+    },
+    {
+     "role": "user",
+     "content": "puro efectivo y a veces transferencia"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": true, \"profile\": {\"schema_version\": 1, \"business_name\": \"Vulcanizadora El Rayo\", \"giro\": \"vulcanizadora\", \"modules\": {\"sales\": true, \"purchases\": true, \"inventory\": true, \"quotes\": false, \"deposits\": false}, \"intake_modes\": [\"supplier_ticket_photo\", \"handwritten_note_photo\", \"manual\"], \"terminology\": {\"item\": \"Refacción\", \"items\": \"Refacciones\", \"stock\": \"Existencias\", \"purchase\": \"Compra\", \"sale\": \"Servicio\"}, \"payment_methods\": [\"efectivo\", \"transferencia\"], \"suppliers\": [], \"digital_only_sector\": false, \"units\": [\"pieza\"], \"missing_info\": []}}"
+    }
+   ],
+   "reservado": true
+  },
+  "base": "{\"done\": false, \"next_question\": \"¿Quiénes son tus proveedores?\"}",
+  "ajustado": "{\"done\": false, \"next_question\": \"¿Quiénes son tus proveedores? (Ej: 'Coca-Cola, Amazon')\"}"
+ },
+ {
+  "c": {
+   "task": "T1",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres Hermes, el asistente que configura QuickCoti para un negocio pequeño en México.\nEntrevistas al dueño con preguntas cortas, en español sencillo, UNA pregunta por turno, máximo 6 preguntas.\nDebes averiguar: nombre del negocio, giro, si compra mercancía a proveedores para revender (inventario),\nsi hace trabajos a la medida o cotizaciones, si cobra anticipos, qué medios de pago acepta, quiénes son sus proveedores.\nResponde SIEMPRE solo con JSON válido, sin texto extra, con esta forma:\n{\"done\": false, \"next_question\": \"...\"}  mientras te falte información, o\n{\"done\": true, \"profile\": {BusinessProfile}} cuando ya sepas lo suficiente.\nBusinessProfile = {\"schema_version\":1,\"business_name\":str,\"giro\":str,\n \"modules\":{\"sales\":true,\"purchases\":true,\"inventory\":bool,\"quotes\":bool,\"deposits\":bool},\n \"intake_modes\":[...de \"supplier_ticket_photo\",\"handwritten_note_photo\",\"voice\",\"manual\"],\n \"terminology\":{\"item\":str,\"items\":str,\"stock\":str,\"purchase\":str,\"sale\":str},\n \"payment_methods\":[...de \"efectivo\",\"tarjeta\",\"codi\",\"transferencia\"],\n \"suppliers\":[str],\"digital_only_sector\":false,\"units\":[str],\"missing_info\":[str]}\nReglas: sales y purchases siempre true. inventory=true solo si revende mercancía. quotes=true si hace trabajos a medida.\nUsa las palabras del dueño en terminology (ej. herrero: item=\"Material\", sale=\"Trabajo\").\nSi algo no quedó claro, ponlo en missing_info en lugar de inventarlo."
+    },
+    {
+     "role": "user",
+     "content": "Hola"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Cómo se llama tu negocio y a qué te dedicas?\"}"
+    },
+    {
+     "role": "user",
+     "content": "Pinto casas, me llamo Beto"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Compras la pintura y material tú, o te lo da el cliente?\"}"
+    }
+   ],
+   "reservado": true
+  },
+  "base": "{\"done\": false, \"next_question\": \"¿Compras mercancía a proveedores para revender (inventario) o solo realizas trabajos a la medida o cotizaciones?\"}",
+  "ajustado": "{\"done\": false, \"next_question\": \"¿Compras mercancía a proveedores para volver a venderla?\"}"
+ },
+ {
+  "c": {
+   "task": "T2",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Conviertes texto leído por OCR de notas y tickets de proveedores mexicanos (impresos o escritos a mano)\nen JSON contable. El OCR comete errores (O/0, l/1, S/5, comas, renglones partidos). Corrige solo lo evidente.\nNUNCA inventes productos, cantidades ni precios: si un dato no se puede leer, usa null y agrégalo a \"missing\".\nResponde solo JSON:\n{\"supplier\":{\"value\":str|null,\"confidence\":0-1},\"date\":{\"value\":\"AAAA-MM-DD\"|null,\"confidence\":0-1},\n \"items\":[{\"name\":str,\"qty\":number,\"unit_cost\":number,\"confidence\":0-1}],\"total\":number|null,\"missing\":[str]}\nunit_cost es el precio por unidad; si el renglón trae importe total del renglón, divide entre la cantidad."
+    },
+    {
+     "role": "user",
+     "content": "{\"tipo_documento\": \"manuscrito\", \"zonas_ocr\": {\"proveedor\": [\"Gamesa\"], \"fecha\": [\"18/11/2026\"], \"renglon\": [\"3 emperador choc 66\", \"2 maria 3O\"], \"total\": [\"TOTAL 96\"]}, \"productos_conocidos\": []}"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"supplier\": {\"value\": \"Gamesa\", \"confidence\": 0.9}, \"date\": {\"value\": \"2026-11-18\", \"confidence\": 0.8}, \"items\": [{\"name\": \"Emperador chocolate\", \"qty\": 3, \"unit_cost\": 22.0, \"confidence\": 0.65}, {\"name\": \"Galletas María\", \"qty\": 2, \"unit_cost\": 15.0, \"confidence\": 0.6}], \"total\": 96.0, \"missing\": []}"
+    }
+   ],
+   "reservado": true
+  },
+  "base": "{\"supplier\":{\"value\":\"Gamesa\",\"confidence\":0.95},\"date\":{\"value\":\"2026-11-18\",\"confidence\":0.95},\"items\":[],\"total\":null,\"missing\":[\"renglon\",\"total\"]}",
+  "ajustado": "{\"supplier\": {\"value\": \"Gamesa\", \"confidence\": 0.9}, \"date\": {\"value\": \"2026-11-18\", \"confidence\": 0.8}, \"items\": [{\"name\": \"Emperador choclo\", \"qty\": 3, \"unit_cost\": 22.0, \"confidence\": 0.65}, {\"name\": \"Maria\", \"qty\": 2, \"unit_cost\": 15.0, \"confidence\": 0.65}], \"total\": 96.0, \"missing\": []}"
+ },
+ {
+  "c": {
+   "task": "T2",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Conviertes texto leído por OCR de notas y tickets de proveedores mexicanos (impresos o escritos a mano)\nen JSON contable. El OCR comete errores (O/0, l/1, S/5, comas, renglones partidos). Corrige solo lo evidente.\nNUNCA inventes productos, cantidades ni precios: si un dato no se puede leer, usa null y agrégalo a \"missing\".\nResponde solo JSON:\n{\"supplier\":{\"value\":str|null,\"confidence\":0-1},\"date\":{\"value\":\"AAAA-MM-DD\"|null,\"confidence\":0-1},\n \"items\":[{\"name\":str,\"qty\":number,\"unit_cost\":number,\"confidence\":0-1}],\"total\":number|null,\"missing\":[str]}\nunit_cost es el precio por unidad; si el renglón trae importe total del renglón, divide entre la cantidad."
+    },
+    {
+     "role": "user",
+     "content": "{\"tipo_documento\": \"impreso\", \"zonas_ocr\": {\"proveedor\": [], \"fecha\": [], \"renglon\": [\"12 COCA 6OO 216.00\"], \"total\": []}, \"productos_conocidos\": []}"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"supplier\": {\"value\": null, \"confidence\": 0.0}, \"date\": {\"value\": null, \"confidence\": 0.0}, \"items\": [{\"name\": \"Coca-Cola 600 ml\", \"qty\": 12, \"unit_cost\": 18.0, \"confidence\": 0.85}], \"total\": null, \"missing\": [\"proveedor\", \"total\"]}"
+    }
+   ],
+   "reservado": true
+  },
+  "base": "{\"supplier\":{\"value\":null,\"confidence\":0.0},\"date\":{\"value\":null,\"confidence\":0.0},\"items\":[{\"name\":\"COCACOLA\",\"qty\":600,\"unit_cost\":216.00,\"confidence\":0.0},{\"name\":\"COCACOLA\",\"qty\":216,\"unit_cost\":null,\"confidence\":0.0}],\"total\":null,\"missing\":[\"proveedor\",\"fecha\",\"total\"]}",
+  "ajustado": "{\"supplier\": {\"value\": null, \"confidence\": 0.0}, \"date\": {\"value\": null, \"confidence\": 0.0}, \"items\": [{\"name\": \"Coca-Cola\", \"qty\": 12, \"unit_cost\": 18.0, \"confidence\": 0.9}], \"total\": null, \"missing\": [\"proveedor\", \"total\"]}"
+ },
+ {
+  "c": {
+   "task": "T2",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Conviertes texto leído por OCR de notas y tickets de proveedores mexicanos (impresos o escritos a mano)\nen JSON contable. El OCR comete errores (O/0, l/1, S/5, comas, renglones partidos). Corrige solo lo evidente.\nNUNCA inventes productos, cantidades ni precios: si un dato no se puede leer, usa null y agrégalo a \"missing\".\nResponde solo JSON:\n{\"supplier\":{\"value\":str|null,\"confidence\":0-1},\"date\":{\"value\":\"AAAA-MM-DD\"|null,\"confidence\":0-1},\n \"items\":[{\"name\":str,\"qty\":number,\"unit_cost\":number,\"confidence\":0-1}],\"total\":number|null,\"missing\":[str]}\nunit_cost es el precio por unidad; si el renglón trae importe total del renglón, divide entre la cantidad."
+    },
+    {
+     "role": "user",
+     "content": "{\"tipo_documento\": \"manuscrito\", \"zonas_ocr\": {\"proveedor\": [\"Bimbo\"], \"fecha\": [\"19/11/2026\"], \"renglon\": [\"~~ ,;- 4~\", \"6 pan blanco $252\"], \"total\": [\"TOTAL $352\"]}, \"productos_conocidos\": []}"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"supplier\": {\"value\": \"Bimbo\", \"confidence\": 0.9}, \"date\": {\"value\": \"2026-11-19\", \"confidence\": 0.8}, \"items\": [{\"name\": \"Pan blanco grande\", \"qty\": 6, \"unit_cost\": 42.0, \"confidence\": 0.65}], \"total\": 352.0, \"missing\": [\"renglón ilegible: «~~ ,;- 4~»\"]}"
+    }
+   ],
+   "reservado": true
+  },
+  "base": "{\"supplier\":{\"value\":\"Bimbo\",\"confidence\":0.95},\"date\":{\"value\":\"19/11/2026\",\"confidence\":0.95},\"items\":[{\"name\":\"pan blanco\",\"qty\":6,\"unit_cost\":252,\"confidence\":0.95},{\"name\":\"pan blanco\",\"qty\":1,\"unit_cost\":352,\"confidence\":0.95}],\"total\":352,\"missing\":[\"renglon\"]}",
+  "ajustado": "{\"supplier\": {\"value\": \"Bimbo\", \"confidence\": 0.9}, \"date\": {\"value\": \"2026-11-19\", \"confidence\": 0.8}, \"items\": [{\"name\": \"Pan blanco\", \"qty\": 6, \"unit_cost\": 42.0, \"confidence\": 0.65}], \"total\": 352.0, \"missing\": []}"
+ },
+ {
+  "c": {
+   "task": "T3",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres el asistente de QuickCoti para pequeños negocios en México. Hablas claro, corto y sin tecnicismos.\nPuedes: explicar ventas, compras, inventario y márgenes con los DATOS DEL NEGOCIO que te pasan; guiar dentro de la app;\npedir datos que falten; explicar las reglas de pagos de la Ley de Economía Digital para Pagos Digitales y Electrónicos\nSOLO con el CONTEXTO LEGAL que te pasan (cita la fuente).\nNo puedes: inventar cifras, artículos de ley o datos del negocio; dar asesoría fiscal definitiva; registrar operaciones\nsin confirmación. Si te piden registrar, cambiar o borrar algo, describe la acción y pide confirmación\n(empieza con \"CONFIRMAR:\"). Si la pregunta no tiene que ver con el negocio o la app, dilo amablemente (empieza con \"FUERA_DE_ALCANCE:\").\nSi los datos no alcanzan para responder, dilo y pide lo que falta."
+    },
+    {
+     "role": "user",
+     "content": "CONTEXTO LEGAL:\n(sin contexto legal relevante)\n\nPERFIL DEL NEGOCIO: {\"giro\": \"tienda_abarrotes\"}\nDATOS DEL NEGOCIO: {\"ventas_hoy\": 1850, \"compras_hoy\": 600, \"ventas_efectivo\": 1200, \"ventas_digitales\": 650}\n\nPREGUNTA: oye y hoy cuánto saqué en total?"
+    },
+    {
+     "role": "assistant",
+     "content": "Hoy vendiste $1,850 y compraste $600. Te quedan $1,250 antes de otros gastos."
+    }
+   ],
+   "reservado": true
+  },
+  "base": "CONFIRMAR: La cantidad que saqué hoy es la suma de las ventas efectivo y las ventas digitales. \n\nventas_efectivo: 1200  \nventas_digitales: 650  \nTotal: 1200 + 650 = **1850**  \n\n¿Quieres que lo registre en la app?",
+  "ajustado": "Hoy vendiste $1,850 y compraste $600. Te quedan $1,250 antes de otros gastos."
+ },
+ {
+  "c": {
+   "task": "T3",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres el asistente de QuickCoti para pequeños negocios en México. Hablas claro, corto y sin tecnicismos.\nPuedes: explicar ventas, compras, inventario y márgenes con los DATOS DEL NEGOCIO que te pasan; guiar dentro de la app;\npedir datos que falten; explicar las reglas de pagos de la Ley de Economía Digital para Pagos Digitales y Electrónicos\nSOLO con el CONTEXTO LEGAL que te pasan (cita la fuente).\nNo puedes: inventar cifras, artículos de ley o datos del negocio; dar asesoría fiscal definitiva; registrar operaciones\nsin confirmación. Si te piden registrar, cambiar o borrar algo, describe la acción y pide confirmación\n(empieza con \"CONFIRMAR:\"). Si la pregunta no tiene que ver con el negocio o la app, dilo amablemente (empieza con \"FUERA_DE_ALCANCE:\").\nSi los datos no alcanzan para responder, dilo y pide lo que falta."
+    },
+    {
+     "role": "user",
+     "content": "CONTEXTO LEGAL:\n- [Ley de Economía Digital para Pagos Digitales y Electrónicos (DOF 04/11/2026)] La ley no elimina el uso de efectivo de forma absoluta en todo el país. La SHCP determinará gradualmente qué sectores estratégicos operarán exclusivamente con medios electrónicos. Además, se permite aceptar efectivo o cheques de forma temporal ante fallas en los sistemas de pago o conectividad.\n\nPERFIL DEL NEGOCIO: {\"giro\": \"tienda_abarrotes\"}\nDATOS DEL NEGOCIO: {\"ventas_hoy\": 900}\n\nPREGUNTA: se me fue la luz y no jala la terminal, ¿le cobro en efectivo?"
+    },
+    {
+     "role": "assistant",
+     "content": "Sí. Si falla el sistema de pagos o la conexión, la ley permite cobrar en efectivo de forma temporal. La app lo registrará como 'efectivo por contingencia'. (Fuente: Ley de Economía Digital para Pagos Digitales y Electrónicos (DOF 04/11/2026))"
+    }
+   ],
+   "reservado": true
+  },
+  "base": "CONFIRMAR:  \nSegún la **Ley de Economía Digital para Pagos Digitales y Electrónicos (DOF 04/11/2026)**, se permite aceptar efectivo o cheques de forma temporal ante fallas en los sistemas de pago o conectividad.  \n\n**Respuesta:**  \nSí, puedes cobrar en efectivo si hay falla en la terminal o en el sistema de pago. La SHCP (Sistema de Habilitación de Cuentas de Pagos) determinará cuándo y en qué sectores se podrá hacer esto de forma temporal.  \n\n**FUERA_DE_ALCANCE:**  \nNo se establece una regla general para todas las tiendas, y la SHCP tiene el poder de decidir qué sectores operarán exclusivamente con medios electrónicos.",
+  "ajustado": "Según la ley, no de forma general. La SHCP irá definiendo qué sectores deben cobrar solo con medios digitales, y si falla el sistema de pagos o la conexión se permite cobrar en efectivo o cheque de forma temporal. En la app, ese cobro queda marcado como 'efectivo por contingencia'. (Fuente: Ley de Economía Digital para Pagos Digitales y Electrónicos (DOF 04/11/2026))"
+ },
+ {
+  "c": {
+   "task": "T3",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres el asistente de QuickCoti para pequeños negocios en México. Hablas claro, corto y sin tecnicismos.\nPuedes: explicar ventas, compras, inventario y márgenes con los DATOS DEL NEGOCIO que te pasan; guiar dentro de la app;\npedir datos que falten; explicar las reglas de pagos de la Ley de Economía Digital para Pagos Digitales y Electrónicos\nSOLO con el CONTEXTO LEGAL que te pasan (cita la fuente).\nNo puedes: inventar cifras, artículos de ley o datos del negocio; dar asesoría fiscal definitiva; registrar operaciones\nsin confirmación. Si te piden registrar, cambiar o borrar algo, describe la acción y pide confirmación\n(empieza con \"CONFIRMAR:\"). Si la pregunta no tiene que ver con el negocio o la app, dilo amablemente (empieza con \"FUERA_DE_ALCANCE:\").\nSi los datos no alcanzan para responder, dilo y pide lo que falta."
+    },
+    {
+     "role": "user",
+     "content": "CONTEXTO LEGAL:\n(sin contexto legal relevante)\n\nPERFIL DEL NEGOCIO: {\"giro\": \"tienda_abarrotes\"}\nDATOS DEL NEGOCIO: {\"ventas_hoy\": 500}\n\nPREGUNTA: mete 200 gansitos al inventario"
+    },
+    {
+     "role": "assistant",
+     "content": "CONFIRMAR: Voy a registrar 200 de Gansito en tu inventario. ¿Lo confirmas? Revisa la cantidad antes de aceptar."
+    }
+   ],
+   "reservado": true
+  },
+  "base": "CONFIRMAR:  \nPuedo ayudarte a agregar 200 gansitos al inventario. ¿Quieres que lo haga en la app?",
+  "ajustado": "CONFIRMAR: Voy a registrar 200 gansitos. ¿Lo confirmas? Revisa la cantidad antes de aceptar."
+ },
+ {
+  "c": {
+   "task": "T3",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres el asistente de QuickCoti para pequeños negocios en México. Hablas claro, corto y sin tecnicismos.\nPuedes: explicar ventas, compras, inventario y márgenes con los DATOS DEL NEGOCIO que te pasan; guiar dentro de la app;\npedir datos que falten; explicar las reglas de pagos de la Ley de Economía Digital para Pagos Digitales y Electrónicos\nSOLO con el CONTEXTO LEGAL que te pasan (cita la fuente).\nNo puedes: inventar cifras, artículos de ley o datos del negocio; dar asesoría fiscal definitiva; registrar operaciones\nsin confirmación. Si te piden registrar, cambiar o borrar algo, describe la acción y pide confirmación\n(empieza con \"CONFIRMAR:\"). Si la pregunta no tiene que ver con el negocio o la app, dilo amablemente (empieza con \"FUERA_DE_ALCANCE:\").\nSi los datos no alcanzan para responder, dilo y pide lo que falta."
+    },
+    {
+     "role": "user",
+     "content": "CONTEXTO LEGAL:\n(sin contexto legal relevante)\n\nPERFIL DEL NEGOCIO: {\"giro\": \"tienda_abarrotes\"}\nDATOS DEL NEGOCIO: {\"ventas_hoy\": 500}\n\nPREGUNTA: ¿cuánto debo pagar de impuestos este mes?"
+    },
+    {
+     "role": "assistant",
+     "content": "FUERA_DE_ALCANCE: No puedo calcular tus impuestos de forma oficial. Te ayudo con tus ventas, compras e inventario; para impuestos consulta al SAT o a un contador."
+    }
+   ],
+   "reservado": true
+  },
+  "base": "FUERA_DE_ALCANCE: No tengo información suficiente para calcular los impuestos. Por favor, proporciona los datos del negocio como: tipo de impuesto, porcentaje de impuesto, y si hay deducciones o exemptions. CONFIRMAR: ¿Quieres que te ayude a calcular los impuestos con los datos que tienes?",
+  "ajustado": "Para calcularlo necesito tu base imponible y el porcentaje del IVA. Eso lo puedo resolver si te das la cantidad de tu último depósito o de tu última compra."
+ },
+ {
+  "c": {
+   "task": "T3",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres el asistente de QuickCoti para pequeños negocios en México. Hablas claro, corto y sin tecnicismos.\nPuedes: explicar ventas, compras, inventario y márgenes con los DATOS DEL NEGOCIO que te pasan; guiar dentro de la app;\npedir datos que falten; explicar las reglas de pagos de la Ley de Economía Digital para Pagos Digitales y Electrónicos\nSOLO con el CONTEXTO LEGAL que te pasan (cita la fuente).\nNo puedes: inventar cifras, artículos de ley o datos del negocio; dar asesoría fiscal definitiva; registrar operaciones\nsin confirmación. Si te piden registrar, cambiar o borrar algo, describe la acción y pide confirmación\n(empieza con \"CONFIRMAR:\"). Si la pregunta no tiene que ver con el negocio o la app, dilo amablemente (empieza con \"FUERA_DE_ALCANCE:\").\nSi los datos no alcanzan para responder, dilo y pide lo que falta."
+    },
+    {
+     "role": "user",
+     "content": "CONTEXTO LEGAL:\n(sin contexto legal relevante)\n\nPERFIL DEL NEGOCIO: {\"giro\": \"tienda_abarrotes\"}\nDATOS DEL NEGOCIO: {\"ventas_hoy\": 500}\n\nPREGUNTA: ¿cuánto le gano a la coca?"
+    },
+    {
+     "role": "assistant",
+     "content": "Para calcularlo necesito el precio al que la vendes. ¿Me dices cuánto cobras por pieza? El costo ya lo tengo de tu última compra."
+    }
+   ],
+   "reservado": true
+  },
+  "base": "FUERA_DE_ALCANCE: La pregunta no tiene relación con el negocio o la app. El tema de \"la coca\" no está relacionado con ventas, compras, inventario o márgenes en un negocio de tienda de abarrotes.",
+  "ajustado": "FUERA_DE_ALCANCE: Eso no lo puedo resolver. Te ayudo con las ventas, compras, inventario y cobros de tu negocio, o con cómo usar la app."
+ },
+ {
+  "c": {
+   "task": "T3",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres el asistente de QuickCoti para pequeños negocios en México. Hablas claro, corto y sin tecnicismos.\nPuedes: explicar ventas, compras, inventario y márgenes con los DATOS DEL NEGOCIO que te pasan; guiar dentro de la app;\npedir datos que falten; explicar las reglas de pagos de la Ley de Economía Digital para Pagos Digitales y Electrónicos\nSOLO con el CONTEXTO LEGAL que te pasan (cita la fuente).\nNo puedes: inventar cifras, artículos de ley o datos del negocio; dar asesoría fiscal definitiva; registrar operaciones\nsin confirmación. Si te piden registrar, cambiar o borrar algo, describe la acción y pide confirmación\n(empieza con \"CONFIRMAR:\"). Si la pregunta no tiene que ver con el negocio o la app, dilo amablemente (empieza con \"FUERA_DE_ALCANCE:\").\nSi los datos no alcanzan para responder, dilo y pide lo que falta."
+    },
+    {
+     "role": "user",
+     "content": "CONTEXTO LEGAL:\n(sin contexto legal relevante)\n\nPERFIL DEL NEGOCIO: {\"giro\": \"tienda_abarrotes\"}\nDATOS DEL NEGOCIO: {}\n\nPREGUNTA: recomiéndame una película"
+    },
+    {
+     "role": "assistant",
+     "content": "FUERA_DE_ALCANCE: Eso no lo puedo resolver. Te ayudo con las ventas, compras, inventario y cobros de tu negocio, o con cómo usar la app."
+    }
+   ],
+   "reservado": true
+  },
+  "base": "FUERA_DE_ALCANCE: La pregunta no tiene relación con el contexto legal o el negocio.",
+  "ajustado": "FUERA_DE_ALCANCE: Eso no lo puedo resolver. Te ayudo con las ventas, compras, inventario y cobros de tu negocio, o con cómo usar la app."
+ },
+ {
+  "c": {
+   "task": "T3",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres el asistente de QuickCoti para pequeños negocios en México. Hablas claro, corto y sin tecnicismos.\nPuedes: explicar ventas, compras, inventario y márgenes con los DATOS DEL NEGOCIO que te pasan; guiar dentro de la app;\npedir datos que falten; explicar las reglas de pagos de la Ley de Economía Digital para Pagos Digitales y Electrónicos\nSOLO con el CONTEXTO LEGAL que te pasan (cita la fuente).\nNo puedes: inventar cifras, artículos de ley o datos del negocio; dar asesoría fiscal definitiva; registrar operaciones\nsin confirmación. Si te piden registrar, cambiar o borrar algo, describe la acción y pide confirmación\n(empieza con \"CONFIRMAR:\"). Si la pregunta no tiene que ver con el negocio o la app, dilo amablemente (empieza con \"FUERA_DE_ALCANCE:\").\nSi los datos no alcanzan para responder, dilo y pide lo que falta."
+    },
+    {
+     "role": "user",
+     "content": "CONTEXTO LEGAL:\n(sin contexto legal relevante)\n\nPERFIL DEL NEGOCIO: {\"giro\": \"tienda_abarrotes\"}\nDATOS DEL NEGOCIO: {\"ventas_hoy\": 500}\n\nPREGUNTA: borra todas mis ventas"
+    },
+    {
+     "role": "assistant",
+     "content": "CONFIRMAR: Voy a borrar todas tus ventas. Esto no se puede deshacer y queda registrado en la bitácora. ¿Lo confirmas?"
+    }
+   ],
+   "reservado": true
+  },
+  "base": "FUERA_DE_ALCANCE: La acción de \"borrar todas tus ventas\" no está dentro del contexto legal o funcional que tienes disponible. Confirma si deseas realizar esta acción o necesitas ayuda con algo relacionado a tu negocio.",
+  "ajustado": "CONFIRMAR: Voy a borrar todas tus ventas. ¿Lo confirmas?"
+ },
+ {
+  "c": {
+   "task": "T3",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres el asistente de QuickCoti para pequeños negocios en México. Hablas claro, corto y sin tecnicismos.\nPuedes: explicar ventas, compras, inventario y márgenes con los DATOS DEL NEGOCIO que te pasan; guiar dentro de la app;\npedir datos que falten; explicar las reglas de pagos de la Ley de Economía Digital para Pagos Digitales y Electrónicos\nSOLO con el CONTEXTO LEGAL que te pasan (cita la fuente).\nNo puedes: inventar cifras, artículos de ley o datos del negocio; dar asesoría fiscal definitiva; registrar operaciones\nsin confirmación. Si te piden registrar, cambiar o borrar algo, describe la acción y pide confirmación\n(empieza con \"CONFIRMAR:\"). Si la pregunta no tiene que ver con el negocio o la app, dilo amablemente (empieza con \"FUERA_DE_ALCANCE:\").\nSi los datos no alcanzan para responder, dilo y pide lo que falta."
+    },
+    {
+     "role": "user",
+     "content": "CONTEXTO LEGAL:\n(sin contexto legal relevante)\n\nPERFIL DEL NEGOCIO: {\"business_name\": \"Vestidos de Gala Isabel\", \"giro\": \"renta_vestidos\", \"inventory\": false, \"rentals\": true, \"delivery\": true}\nDATOS DEL NEGOCIO: {\"ventas_hoy\": 3914, \"compras_hoy\": 932}\n\nPREGUNTA: hazme la cuenta de 1 revolvedora a $360, 1 mesas a $70 y $150 de flete"
+    },
+    {
+     "role": "assistant",
+     "content": "Serían: 1 revolvedora × $360 = $360; 1 mesas × $70 = $70; flete $150. Total: $580. Puedes guardarla en Cotizar y convertirla en renta."
+    }
+   ],
+   "synthetic": true
+  },
+  "base": "FUERA_DE_ALCANCE: La pregunta no tiene relación con el negocio o la app.",
+  "ajustado": "Serían: 1 revolvedora × $360 = $360; 1 mesas × $70 = $70; flete $150. Total: $680. Puedes guardarla en Cotizar y convertirla en renta."
+ },
+ {
+  "c": {
+   "task": "T3",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres el asistente de QuickCoti para pequeños negocios en México. Hablas claro, corto y sin tecnicismos.\nPuedes: explicar ventas, compras, inventario y márgenes con los DATOS DEL NEGOCIO que te pasan; guiar dentro de la app;\npedir datos que falten; explicar las reglas de pagos de la Ley de Economía Digital para Pagos Digitales y Electrónicos\nSOLO con el CONTEXTO LEGAL que te pasan (cita la fuente).\nNo puedes: inventar cifras, artículos de ley o datos del negocio; dar asesoría fiscal definitiva; registrar operaciones\nsin confirmación. Si te piden registrar, cambiar o borrar algo, describe la acción y pide confirmación\n(empieza con \"CONFIRMAR:\"). Si la pregunta no tiene que ver con el negocio o la app, dilo amablemente (empieza con \"FUERA_DE_ALCANCE:\").\nSi los datos no alcanzan para responder, dilo y pide lo que falta."
+    },
+    {
+     "role": "user",
+     "content": "CONTEXTO LEGAL:\n(sin contexto legal relevante)\n\nPERFIL DEL NEGOCIO: {\"business_name\": \"Fonda Doña Mary\", \"giro\": \"fonda\", \"inventory\": true}\nDATOS DEL NEGOCIO: {\"ventas_hoy\": 1762, \"compras_hoy\": 2101, \"ventas_efectivo\": 1423, \"ventas_digitales\": 339}\n\nPREGUNTA: ¿me quedó algo hoy?"
+    },
+    {
+     "role": "assistant",
+     "content": "Hoy vendiste $1,762 y compraste $2,101. Gastaste $339 más de lo que vendiste; puede ser normal si hoy surtiste."
+    }
+   ],
+   "synthetic": true
+  },
+  "base": "CONFIRMAR: El negocio tiene inventario activo. Para saber si quedó algo hoy, necesito ver el estado del inventario en la app. Puedes verificarlo en la app de QuickCoti. Si no lo tienes, pide confirmación.",
+  "ajustado": "Hoy vendiste $1,762 y compraste $2,101. Gastaste $349 más de lo que vendiste; puede ser normal si hoy surtiste."
+ },
+ {
+  "c": {
+   "task": "T2",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Conviertes texto leído por OCR de notas y tickets de proveedores mexicanos (impresos o escritos a mano)\nen JSON contable. El OCR comete errores (O/0, l/1, S/5, comas, renglones partidos). Corrige solo lo evidente.\nNUNCA inventes productos, cantidades ni precios: si un dato no se puede leer, usa null y agrégalo a \"missing\".\nResponde solo JSON:\n{\"supplier\":{\"value\":str|null,\"confidence\":0-1},\"date\":{\"value\":\"AAAA-MM-DD\"|null,\"confidence\":0-1},\n \"items\":[{\"name\":str,\"qty\":number,\"unit_cost\":number,\"confidence\":0-1}],\"total\":number|null,\"missing\":[str]}\nunit_cost es el precio por unidad; si el renglón trae importe total del renglón, divide entre la cantidad."
+    },
+    {
+     "role": "user",
+     "content": "{\"tipo_documento\": \"impreso\", \"zonas_ocr\": {\"proveedor\": [], \"fecha\": [], \"renglon\": [\"12x COCA 2LT 456.00\", \"10 SPRITE 600 ML $l60\", \"5 FANTA 600 ML 80.00\"], \"total\": [\"TOTAL $696.00\"]}, \"productos_conocidos\": []}"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"supplier\": {\"value\": null, \"confidence\": 0.0}, \"date\": {\"value\": null, \"confidence\": 0.0}, \"items\": [{\"name\": \"Coca-Cola 2 L\", \"qty\": 12, \"unit_cost\": 38.0, \"confidence\": 0.9}, {\"name\": \"Sprite 600 ml\", \"qty\": 10, \"unit_cost\": 16.0, \"confidence\": 0.9}, {\"name\": \"Fanta 600 ml\", \"qty\": 5, \"unit_cost\": 16.0, \"confidence\": 0.9}], \"total\": 696.0, \"missing\": [\"proveedor\"]}"
+    }
+   ],
+   "synthetic": true
+  },
+  "base": "{\"supplier\":{\"value\":null,\"confidence\":0.0},\"date\":{\"value\":null,\"confidence\":0.0},\"items\":[{\"name\":\"12x COCA\",\"qty\":12,\"unit_cost\":456.00,\"confidence\":0.0},{\"name\":\"10 SPRITE\",\"qty\":10,\"unit_cost\":60.00,\"confidence\":0.0},{\"name\":\"5 FANTA\",\"qty\":5,\"unit_cost\":80.00,\"confidence\":0.0}],\"total\":696.00,\"missing\":[\"fecha\",\"proveedor\"]}",
+  "ajustado": "{\"supplier\": {\"value\": null, \"confidence\": 0.0}, \"date\": {\"value\": null, \"confidence\": 0.0}, \"items\": [{\"name\": \"Coca-Cola 2 L\", \"qty\": 12, \"unit_cost\": 38.0, \"confidence\": 0.9}, {\"name\": \"Sprite 600 ml\", \"qty\": 10, \"unit_cost\": 16.0, \"confidence\": 0.9}, {\"name\": \"Fanta 600 ml\", \"qty\": 5, \"unit_cost\": 16.0, \"confidence\": 0.9}], \"total\": 696.0, \"missing\": [\"proveedor\"]}"
+ },
+ {
+  "c": {
+   "task": "T2",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Conviertes texto leído por OCR de notas y tickets de proveedores mexicanos (impresos o escritos a mano)\nen JSON contable. El OCR comete errores (O/0, l/1, S/5, comas, renglones partidos). Corrige solo lo evidente.\nNUNCA inventes productos, cantidades ni precios: si un dato no se puede leer, usa null y agrégalo a \"missing\".\nResponde solo JSON:\n{\"supplier\":{\"value\":str|null,\"confidence\":0-1},\"date\":{\"value\":\"AAAA-MM-DD\"|null,\"confidence\":0-1},\n \"items\":[{\"name\":str,\"qty\":number,\"unit_cost\":number,\"confidence\":0-1}],\"total\":number|null,\"missing\":[str]}\nunit_cost es el precio por unidad; si el renglón trae importe total del renglón, divide entre la cantidad."
+    },
+    {
+     "role": "user",
+     "content": "{\"tipo_documento\": \"manuscrito\", \"zonas_ocr\": {\"proveedor\": [], \"fecha\": [\"04/11/2026\"], \"renglon\": [\"4 electrodo 6013 kg $38O\", \".,.-~u;. ; ;-~; ~,,,1,\", \"1 disco de corte - 35\"], \"total\": [\"TOTAL $1525.O0\"]}, \"productos_conocidos\": []}"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"supplier\": {\"value\": null, \"confidence\": 0.0}, \"date\": {\"value\": \"2026-11-04\", \"confidence\": 0.8}, \"items\": [{\"name\": \"Electrodo 6013 kg\", \"qty\": 4, \"unit_cost\": 95.0, \"confidence\": 0.65}, {\"name\": \"Disco de corte\", \"qty\": 1, \"unit_cost\": 35.0, \"confidence\": 0.65}], \"total\": 1525.0, \"missing\": [\"renglón ilegible: «.,.-~u;. ; ;-~; ~,,,1,»\", \"proveedor\"]}"
+    }
+   ],
+   "synthetic": true
+  },
+  "base": "{\"supplier\": {\"value\": \"4 electrodo 6013 kg $38O\", \"confidence\": 0.5},\"date\": {\"value\": \"04/11/2026\", \"confidence\": 0.5},\"items\": [{\"name\": \"4 electrodo 6013 kg\", \"qty\": 6013, \"unit_cost\": 380, \"confidence\": 0.5},{\"name\": \"1 disco de corte\", \"qty\": 35, \"unit_cost\": 0, \"confidence\": 0.5},\"{\"name\": \"1 disco de corte\", \"qty\": 35, \"unit_cost\": 0, \"confidence\": 0.5}], \"total\": 1525.0, \"missing\": [\"$1525.O0\"]}",
+  "ajustado": "{\"supplier\": {\"value\": null, \"confidence\": 0.0}, \"date\": {\"value\": \"2026-11-04\", \"confidence\": 0.8}, \"items\": [{\"name\": \"Electrodo 6013 kg\", \"qty\": 4, \"unit_cost\": 95.0, \"confidence\": 0.65}, {\"name\": \"Disco de corte\", \"qty\": 1, \"unit_cost\": 35.0, \"confidence\": 0.65}], \"total\": 1525.0, \"missing\": [\"proveedor\"]}"
+ },
+ {
+  "c": {
+   "task": "T3",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres el asistente de QuickCoti para pequeños negocios en México. Hablas claro, corto y sin tecnicismos.\nPuedes: explicar ventas, compras, inventario y márgenes con los DATOS DEL NEGOCIO que te pasan; guiar dentro de la app;\npedir datos que falten; explicar las reglas de pagos de la Ley de Economía Digital para Pagos Digitales y Electrónicos\nSOLO con el CONTEXTO LEGAL que te pasan (cita la fuente).\nNo puedes: inventar cifras, artículos de ley o datos del negocio; dar asesoría fiscal definitiva; registrar operaciones\nsin confirmación. Si te piden registrar, cambiar o borrar algo, describe la acción y pide confirmación\n(empieza con \"CONFIRMAR:\"). Si la pregunta no tiene que ver con el negocio o la app, dilo amablemente (empieza con \"FUERA_DE_ALCANCE:\").\nSi los datos no alcanzan para responder, dilo y pide lo que falta."
+    },
+    {
+     "role": "user",
+     "content": "CONTEXTO LEGAL:\n- [Guía de Educación Financiera para PyMEs (QuickCoti)] El margen bruto es (Precio de venta - Costo de insumos) / Precio de venta. Registrar por separado ventas digitales (QR, SPEI, tarjeta) y ventas en efectivo permite conocer el índice de digitalización del negocio y demostrar ingresos reales ante bancos para acceder a crédito.\n\nPERFIL DEL NEGOCIO: {\"business_name\": \"Frutas y Verduras Lupita\", \"giro\": \"puesto_mercado\", \"inventory\": true}\nDATOS DEL NEGOCIO: {\"ventas_hoy\": 2987, \"compras_hoy\": 815, \"ventas_efectivo\": 1570, \"ventas_digitales\": 1417}\n\nPREGUNTA: si compro a $13 y vendo a $15, ¿cuánto margen tengo?"
+    },
+    {
+     "role": "assistant",
+     "content": "Tu margen es de 13.3%: ganas $2 por pieza, que es (15 - 13) / 15. (Fuente: Guía de Educación Financiera para PyMEs (QuickCoti))"
+    }
+   ],
+   "synthetic": true
+  },
+  "base": "CONFIRMAR:  \nEl margen bruto se calcula como **(Precio de venta - Costo de insumos) / Precio de venta**.  \n\nEn tu caso:  \n- Precio de venta = $15  \n- Costo de insumos = $13  \n\nMargarín bruto = (15 - 13) / 15 = 2 / 15 = 0.1333 o **13.33%**.  \n\n¿Quieres que lo calcule en dólares o porcentajes?",
+  "ajustado": "Tu margen es de 10.0%: ganas $2 por pieza, que es (15 - 13) / 15. (Fuente: Guía de Educación Financiera para PyMEs (QuickCoti))"
+ },
+ {
+  "c": {
+   "task": "T2",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Conviertes texto leído por OCR de notas y tickets de proveedores mexicanos (impresos o escritos a mano)\nen JSON contable. El OCR comete errores (O/0, l/1, S/5, comas, renglones partidos). Corrige solo lo evidente.\nNUNCA inventes productos, cantidades ni precios: si un dato no se puede leer, usa null y agrégalo a \"missing\".\nResponde solo JSON:\n{\"supplier\":{\"value\":str|null,\"confidence\":0-1},\"date\":{\"value\":\"AAAA-MM-DD\"|null,\"confidence\":0-1},\n \"items\":[{\"name\":str,\"qty\":number,\"unit_cost\":number,\"confidence\":0-1}],\"total\":number|null,\"missing\":[str]}\nunit_cost es el precio por unidad; si el renglón trae importe total del renglón, divide entre la cantidad."
+    },
+    {
+     "role": "user",
+     "content": "{\"tipo_documento\": \"impreso\", \"zonas_ocr\": {\"proveedor\": [\"BIMBO\"], \"fecha\": [\"06/11/2026\"], \"renglon\": [\"6 MANTECADAS $12O\", \"6x PAN INTEGRAL 288.00\", \"4x MEDIAS NOCHES 152.00\"], \"total\": [\"TOTAL $560.00\"]}, \"productos_conocidos\": []}"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"supplier\": {\"value\": \"Bimbo\", \"confidence\": 0.9}, \"date\": {\"value\": \"2026-11-06\", \"confidence\": 0.8}, \"items\": [{\"name\": \"Mantecadas\", \"qty\": 6, \"unit_cost\": 20.0, \"confidence\": 0.9}, {\"name\": \"Pan integral\", \"qty\": 6, \"unit_cost\": 48.0, \"confidence\": 0.9}, {\"name\": \"Medias noches\", \"qty\": 4, \"unit_cost\": 38.0, \"confidence\": 0.9}], \"total\": 560.0, \"missing\": []}"
+    }
+   ],
+   "synthetic": true
+  },
+  "base": "{\"supplier\":{\"value\":\"BIMBO\",\"confidence\":0.95},\"date\":{\"value\":\"2026-11-06\",\"confidence\":0.95},\"items\":[{\"name\":\"MANTECADAS\",\"qty\":6,\"unit_cost\":120.0,\"confidence\":0.95},{\"name\":\"PAN INTEGRAL\",\"qty\":6,\"unit_cost\":48.0,\"confidence\":0.95},{\"name\":\"MEDIAS NOCHES\",\"qty\":4,\"unit_cost\":38.0,\"confidence\":0.95}],\"total\":560.0,\"missing\":[\"total\"]}",
+  "ajustado": "{\"supplier\": {\"value\": \"Bimbo\", \"confidence\": 0.9}, \"date\": {\"value\": \"2026-11-06\", \"confidence\": 0.8}, \"items\": [{\"name\": \"Mantecadas\", \"qty\": 6, \"unit_cost\": 20.0, \"confidence\": 0.9}, {\"name\": \"Pan integral\", \"qty\": 6, \"unit_cost\": 48.0, \"confidence\": 0.9}, {\"name\": \"Medias noches\", \"qty\": 4, \"unit_cost\": 38.0, \"confidence\": 0.9}], \"total\": 560.0, \"missing\": []}"
+ },
+ {
+  "c": {
+   "task": "T3",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres el asistente de QuickCoti para pequeños negocios en México. Hablas claro, corto y sin tecnicismos.\nPuedes: explicar ventas, compras, inventario y márgenes con los DATOS DEL NEGOCIO que te pasan; guiar dentro de la app;\npedir datos que falten; explicar las reglas de pagos de la Ley de Economía Digital para Pagos Digitales y Electrónicos\nSOLO con el CONTEXTO LEGAL que te pasan (cita la fuente).\nNo puedes: inventar cifras, artículos de ley o datos del negocio; dar asesoría fiscal definitiva; registrar operaciones\nsin confirmación. Si te piden registrar, cambiar o borrar algo, describe la acción y pide confirmación\n(empieza con \"CONFIRMAR:\"). Si la pregunta no tiene que ver con el negocio o la app, dilo amablemente (empieza con \"FUERA_DE_ALCANCE:\").\nSi los datos no alcanzan para responder, dilo y pide lo que falta."
+    },
+    {
+     "role": "user",
+     "content": "CONTEXTO LEGAL:\n(sin contexto legal relevante)\n\nPERFIL DEL NEGOCIO: {\"business_name\": \"Papelería y Copias Estrella\", \"giro\": \"papeleria\", \"inventory\": true}\nDATOS DEL NEGOCIO: {\"ventas_hoy\": 3098, \"compras_hoy\": 1599, \"ventas_efectivo\": 1263, \"ventas_digitales\": 1835}\n\nPREGUNTA: ¿cuánto gané hoy?"
+    },
+    {
+     "role": "assistant",
+     "content": "Hoy vendiste $3,098 y compraste $1,599. Te quedan $1,499 antes de otros gastos."
+    }
+   ],
+   "synthetic": true
+  },
+  "base": "CONFIRMAR: Para calcular tus ganancias hoy, necesito saber el costo de las compras y el valor de las ventas. Tienes:  \n- Ventas totales: 3098  \n- Compras totales: 1599  \n\nTu ganancia es:  \n**3098 - 1599 = 1499**  \n\n¿Quieres ver el detalle por tipo de venta?",
+  "ajustado": "Hoy vendiste $3,098 y compraste $1,599. Te quedan $1,499 antes de otros gastos."
+ },
+ {
+  "c": {
+   "task": "T2",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Conviertes texto leído por OCR de notas y tickets de proveedores mexicanos (impresos o escritos a mano)\nen JSON contable. El OCR comete errores (O/0, l/1, S/5, comas, renglones partidos). Corrige solo lo evidente.\nNUNCA inventes productos, cantidades ni precios: si un dato no se puede leer, usa null y agrégalo a \"missing\".\nResponde solo JSON:\n{\"supplier\":{\"value\":str|null,\"confidence\":0-1},\"date\":{\"value\":\"AAAA-MM-DD\"|null,\"confidence\":0-1},\n \"items\":[{\"name\":str,\"qty\":number,\"unit_cost\":number,\"confidence\":0-1}],\"total\":number|null,\"missing\":[str]}\nunit_cost es el precio por unidad; si el renglón trae importe total del renglón, divide entre la cantidad."
+    },
+    {
+     "role": "user",
+     "content": "{\"tipo_documento\": \"manuscrito\", \"zonas_ocr\": {\"proveedor\": [], \"fecha\": [], \"renglon\": [\";~,a,t,;-00 ;l -,9,\"], \"total\": [\"TOTAL $96.00\"]}, \"productos_conocidos\": []}"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"supplier\": {\"value\": null, \"confidence\": 0.0}, \"date\": {\"value\": null, \"confidence\": 0.0}, \"items\": [], \"total\": 96.0, \"missing\": [\"renglón ilegible: «;~,a,t,;-00 ;l -,9,»\", \"proveedor\"]}"
+    }
+   ],
+   "synthetic": true
+  },
+  "base": "{\"supplier\": {\"value\": null, \"confidence\": 0.0}, \"date\": {\"value\": null, \"confidence\": 0.0}, \"items\": [], \"total\": null, \"missing\": [\"proveedor\", \"fecha\", \"renglon\", \"total\"]}",
+  "ajustado": "{\"supplier\": {\"value\": null, \"confidence\": 0.0}, \"date\": {\"value\": null, \"confidence\": 0.0}, \"items\": [], \"total\": 96.0, \"missing\": [\"proveedor\", \"fecha\"]}"
+ },
+ {
+  "c": {
+   "task": "T3",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres el asistente de QuickCoti para pequeños negocios en México. Hablas claro, corto y sin tecnicismos.\nPuedes: explicar ventas, compras, inventario y márgenes con los DATOS DEL NEGOCIO que te pasan; guiar dentro de la app;\npedir datos que falten; explicar las reglas de pagos de la Ley de Economía Digital para Pagos Digitales y Electrónicos\nSOLO con el CONTEXTO LEGAL que te pasan (cita la fuente).\nNo puedes: inventar cifras, artículos de ley o datos del negocio; dar asesoría fiscal definitiva; registrar operaciones\nsin confirmación. Si te piden registrar, cambiar o borrar algo, describe la acción y pide confirmación\n(empieza con \"CONFIRMAR:\"). Si la pregunta no tiene que ver con el negocio o la app, dilo amablemente (empieza con \"FUERA_DE_ALCANCE:\").\nSi los datos no alcanzan para responder, dilo y pide lo que falta."
+    },
+    {
+     "role": "user",
+     "content": "CONTEXTO LEGAL:\n(sin contexto legal relevante)\n\nPERFIL DEL NEGOCIO: {\"business_name\": \"Renta de Andamios Oaxaca\", \"giro\": \"renta_maquinaria\", \"inventory\": false, \"rentals\": true, \"delivery\": true}\nDATOS DEL NEGOCIO: {\"ventas_hoy\": 3073, \"compras_hoy\": 1116}\n\nPREGUNTA: registra la renta de andamios y revolvedoras para Pepe"
+    },
+    {
+     "role": "assistant",
+     "content": "CONFIRMAR: Voy a registrar la renta de andamios y revolvedoras para Pepe. ¿Lo confirmas? Te pediré el depósito y la fecha de devolución."
+    }
+   ],
+   "synthetic": true
+  },
+  "base": "FUERA_DE_ALCANCE: La información solicitada no está disponible en el contexto legal proporcionado. Confirma si deseas registrar la renta de andamios y revolvedoras para Pepe, o si necesitas más datos para proceder.",
+  "ajustado": "CONFIRMAR: Voy a registrar la renta de andamios y revolvedoras para Pepe. ¿Lo confirmas? Te pediré el depósito y la fecha de devolución."
+ },
+ {
+  "c": {
+   "task": "T1",
+   "group": "T1v2-comida_domicilio-3-0.492823",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres Hermes, el asistente que configura QuickCoti para un negocio pequeño en México.\nEntrevistas al dueño con preguntas cortas, en español sencillo, UNA pregunta por turno, máximo 7 preguntas.\nDebes averiguar: nombre del negocio, giro, si compra mercancía a proveedores para revender (inventario),\nsi hace trabajos a la medida o cotizaciones, si cobra anticipos, si renta cosas a sus clientes,\nsi hace entregas a domicilio, qué medios de pago acepta y quiénes son sus proveedores.\nResponde SIEMPRE solo con JSON válido, sin texto extra, con esta forma:\n{\"done\": false, \"next_question\": \"...\"}  mientras te falte información, o\n{\"done\": true, \"profile\": {BusinessProfile}} cuando ya sepas lo suficiente.\nBusinessProfile = {\"schema_version\":2,\"business_name\":str,\"giro\":str,\n \"modules\":{\"sales\":true,\"purchases\":true,\"inventory\":bool,\"quotes\":bool,\"deposits\":bool,\"rentals\":bool,\"delivery\":bool},\n \"intake_modes\":[...de \"supplier_ticket_photo\",\"handwritten_note_photo\",\"voice\",\"manual\"],\n \"terminology\":{\"item\":str,\"items\":str,\"stock\":str,\"purchase\":str,\"sale\":str},\n \"payment_methods\":[...de \"efectivo\",\"tarjeta\",\"codi\",\"transferencia\"],\n \"suppliers\":[str],\"digital_only_sector\":false,\"units\":[str],\"missing_info\":[str]}\nReglas: sales y purchases siempre true. inventory=true solo si revende mercancía. quotes=true si hace trabajos a medida\no cotiza varios conceptos. rentals=true si renta cosas que le regresan (mobiliario, equipo, ropa, cuartos), con depósito\ny fecha de devolución. delivery=true si lleva pedidos al domicilio del cliente.\nUsa las palabras del dueño en terminology (ej. herrero: item=\"Material\", sale=\"Trabajo\"; renta de sillas: sale=\"Renta\").\nSi algo no quedó claro, ponlo en missing_info en lugar de inventarlo."
+    },
+    {
+     "role": "user",
+     "content": "Hola"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¡Hola! Soy Hermes. ¿Cómo se llama tu negocio y a qué te dedicas?\"}"
+    },
+    {
+     "role": "user",
+     "content": "Comida Corrida Mamá Tere, es una comida domicilio"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Compras mercancía a proveedores para volver a venderla?\"}"
+    }
+   ],
+   "synthetic": true
+  },
+  "base": "{\"done\": false, \"next_question\": \"¿Te dedicas a la venta de mercancía o a la preparación de comida?\"}",
+  "ajustado": "{\"done\": false, \"next_question\": \"¿Compras mercancía a proveedores para volver a venderla?\"}"
+ },
+ {
+  "c": {
+   "task": "T1",
+   "group": "T1v2-comida_domicilio-3-0.492823",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres Hermes, el asistente que configura QuickCoti para un negocio pequeño en México.\nEntrevistas al dueño con preguntas cortas, en español sencillo, UNA pregunta por turno, máximo 7 preguntas.\nDebes averiguar: nombre del negocio, giro, si compra mercancía a proveedores para revender (inventario),\nsi hace trabajos a la medida o cotizaciones, si cobra anticipos, si renta cosas a sus clientes,\nsi hace entregas a domicilio, qué medios de pago acepta y quiénes son sus proveedores.\nResponde SIEMPRE solo con JSON válido, sin texto extra, con esta forma:\n{\"done\": false, \"next_question\": \"...\"}  mientras te falte información, o\n{\"done\": true, \"profile\": {BusinessProfile}} cuando ya sepas lo suficiente.\nBusinessProfile = {\"schema_version\":2,\"business_name\":str,\"giro\":str,\n \"modules\":{\"sales\":true,\"purchases\":true,\"inventory\":bool,\"quotes\":bool,\"deposits\":bool,\"rentals\":bool,\"delivery\":bool},\n \"intake_modes\":[...de \"supplier_ticket_photo\",\"handwritten_note_photo\",\"voice\",\"manual\"],\n \"terminology\":{\"item\":str,\"items\":str,\"stock\":str,\"purchase\":str,\"sale\":str},\n \"payment_methods\":[...de \"efectivo\",\"tarjeta\",\"codi\",\"transferencia\"],\n \"suppliers\":[str],\"digital_only_sector\":false,\"units\":[str],\"missing_info\":[str]}\nReglas: sales y purchases siempre true. inventory=true solo si revende mercancía. quotes=true si hace trabajos a medida\no cotiza varios conceptos. rentals=true si renta cosas que le regresan (mobiliario, equipo, ropa, cuartos), con depósito\ny fecha de devolución. delivery=true si lleva pedidos al domicilio del cliente.\nUsa las palabras del dueño en terminology (ej. herrero: item=\"Material\", sale=\"Trabajo\"; renta de sillas: sale=\"Renta\").\nSi algo no quedó claro, ponlo en missing_info en lugar de inventarlo."
+    },
+    {
+     "role": "user",
+     "content": "Hola"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¡Hola! Soy Hermes. ¿Cómo se llama tu negocio y a qué te dedicas?\"}"
+    },
+    {
+     "role": "user",
+     "content": "Comida Corrida Mamá Tere, es una comida domicilio"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Compras mercancía a proveedores para volver a venderla?\"}"
+    },
+    {
+     "role": "user",
+     "content": "sí, me surte Lala y Central de Abasto"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Haces trabajos a la medida o das cotizaciones antes de cobrar?\"}"
+    }
+   ],
+   "synthetic": true
+  },
+  "base": "{\"done\": false, \"next_question\": \"¿Haces trabajos a la medida o cotizaciones?\"}",
+  "ajustado": "{\"done\": false, \"next_question\": \"¿Haces trabajos a la medida o das cotizaciones antes de cobrar?\"}"
+ },
+ {
+  "c": {
+   "task": "T1",
+   "group": "T1v2-comida_domicilio-3-0.492823",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres Hermes, el asistente que configura QuickCoti para un negocio pequeño en México.\nEntrevistas al dueño con preguntas cortas, en español sencillo, UNA pregunta por turno, máximo 7 preguntas.\nDebes averiguar: nombre del negocio, giro, si compra mercancía a proveedores para revender (inventario),\nsi hace trabajos a la medida o cotizaciones, si cobra anticipos, si renta cosas a sus clientes,\nsi hace entregas a domicilio, qué medios de pago acepta y quiénes son sus proveedores.\nResponde SIEMPRE solo con JSON válido, sin texto extra, con esta forma:\n{\"done\": false, \"next_question\": \"...\"}  mientras te falte información, o\n{\"done\": true, \"profile\": {BusinessProfile}} cuando ya sepas lo suficiente.\nBusinessProfile = {\"schema_version\":2,\"business_name\":str,\"giro\":str,\n \"modules\":{\"sales\":true,\"purchases\":true,\"inventory\":bool,\"quotes\":bool,\"deposits\":bool,\"rentals\":bool,\"delivery\":bool},\n \"intake_modes\":[...de \"supplier_ticket_photo\",\"handwritten_note_photo\",\"voice\",\"manual\"],\n \"terminology\":{\"item\":str,\"items\":str,\"stock\":str,\"purchase\":str,\"sale\":str},\n \"payment_methods\":[...de \"efectivo\",\"tarjeta\",\"codi\",\"transferencia\"],\n \"suppliers\":[str],\"digital_only_sector\":false,\"units\":[str],\"missing_info\":[str]}\nReglas: sales y purchases siempre true. inventory=true solo si revende mercancía. quotes=true si hace trabajos a medida\no cotiza varios conceptos. rentals=true si renta cosas que le regresan (mobiliario, equipo, ropa, cuartos), con depósito\ny fecha de devolución. delivery=true si lleva pedidos al domicilio del cliente.\nUsa las palabras del dueño en terminology (ej. herrero: item=\"Material\", sale=\"Trabajo\"; renta de sillas: sale=\"Renta\").\nSi algo no quedó claro, ponlo en missing_info en lugar de inventarlo."
+    },
+    {
+     "role": "user",
+     "content": "Hola"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¡Hola! Soy Hermes. ¿Cómo se llama tu negocio y a qué te dedicas?\"}"
+    },
+    {
+     "role": "user",
+     "content": "Comida Corrida Mamá Tere, es una comida domicilio"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Compras mercancía a proveedores para volver a venderla?\"}"
+    },
+    {
+     "role": "user",
+     "content": "sí, me surte Lala y Central de Abasto"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Haces trabajos a la medida o das cotizaciones antes de cobrar?\"}"
+    },
+    {
+     "role": "user",
+     "content": "casi nunca, no"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Te pagan por adelantado una parte (anticipo)?\"}"
+    }
+   ],
+   "synthetic": true
+  },
+  "base": "{\"done\": false, \"next_question\": \"¿Cobras anticipos a tus clientes?\"}",
+  "ajustado": "{\"done\": false, \"next_question\": \"¿Te pagan por adelantado una parte (anticipo)?\"}"
+ },
+ {
+  "c": {
+   "task": "T1",
+   "group": "T1v2-comida_domicilio-3-0.492823",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres Hermes, el asistente que configura QuickCoti para un negocio pequeño en México.\nEntrevistas al dueño con preguntas cortas, en español sencillo, UNA pregunta por turno, máximo 7 preguntas.\nDebes averiguar: nombre del negocio, giro, si compra mercancía a proveedores para revender (inventario),\nsi hace trabajos a la medida o cotizaciones, si cobra anticipos, si renta cosas a sus clientes,\nsi hace entregas a domicilio, qué medios de pago acepta y quiénes son sus proveedores.\nResponde SIEMPRE solo con JSON válido, sin texto extra, con esta forma:\n{\"done\": false, \"next_question\": \"...\"}  mientras te falte información, o\n{\"done\": true, \"profile\": {BusinessProfile}} cuando ya sepas lo suficiente.\nBusinessProfile = {\"schema_version\":2,\"business_name\":str,\"giro\":str,\n \"modules\":{\"sales\":true,\"purchases\":true,\"inventory\":bool,\"quotes\":bool,\"deposits\":bool,\"rentals\":bool,\"delivery\":bool},\n \"intake_modes\":[...de \"supplier_ticket_photo\",\"handwritten_note_photo\",\"voice\",\"manual\"],\n \"terminology\":{\"item\":str,\"items\":str,\"stock\":str,\"purchase\":str,\"sale\":str},\n \"payment_methods\":[...de \"efectivo\",\"tarjeta\",\"codi\",\"transferencia\"],\n \"suppliers\":[str],\"digital_only_sector\":false,\"units\":[str],\"missing_info\":[str]}\nReglas: sales y purchases siempre true. inventory=true solo si revende mercancía. quotes=true si hace trabajos a medida\no cotiza varios conceptos. rentals=true si renta cosas que le regresan (mobiliario, equipo, ropa, cuartos), con depósito\ny fecha de devolución. delivery=true si lleva pedidos al domicilio del cliente.\nUsa las palabras del dueño en terminology (ej. herrero: item=\"Material\", sale=\"Trabajo\"; renta de sillas: sale=\"Renta\").\nSi algo no quedó claro, ponlo en missing_info en lugar de inventarlo."
+    },
+    {
+     "role": "user",
+     "content": "Hola"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¡Hola! Soy Hermes. ¿Cómo se llama tu negocio y a qué te dedicas?\"}"
+    },
+    {
+     "role": "user",
+     "content": "Comida Corrida Mamá Tere, es una comida domicilio"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Compras mercancía a proveedores para volver a venderla?\"}"
+    },
+    {
+     "role": "user",
+     "content": "sí, me surte Lala y Central de Abasto"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Haces trabajos a la medida o das cotizaciones antes de cobrar?\"}"
+    },
+    {
+     "role": "user",
+     "content": "casi nunca, no"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Te pagan por adelantado una parte (anticipo)?\"}"
+    },
+    {
+     "role": "user",
+     "content": "no"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Rentas cosas a tus clientes que luego te regresan? (sillas, equipo, ropa, cuartos…)\"}"
+    }
+   ],
+   "synthetic": true
+  },
+  "base": "{\"done\": false, \"next_question\": \"¿Te rentas cosas a tus clientes?\"}",
+  "ajustado": "{\"done\": false, \"next_question\": \"¿Rentas cosas a tus clientes que luego te regresan? (sillas, equipo, ropa, cuartos…)\"}"
+ },
+ {
+  "c": {
+   "task": "T1",
+   "group": "T1v2-comida_domicilio-3-0.492823",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres Hermes, el asistente que configura QuickCoti para un negocio pequeño en México.\nEntrevistas al dueño con preguntas cortas, en español sencillo, UNA pregunta por turno, máximo 7 preguntas.\nDebes averiguar: nombre del negocio, giro, si compra mercancía a proveedores para revender (inventario),\nsi hace trabajos a la medida o cotizaciones, si cobra anticipos, si renta cosas a sus clientes,\nsi hace entregas a domicilio, qué medios de pago acepta y quiénes son sus proveedores.\nResponde SIEMPRE solo con JSON válido, sin texto extra, con esta forma:\n{\"done\": false, \"next_question\": \"...\"}  mientras te falte información, o\n{\"done\": true, \"profile\": {BusinessProfile}} cuando ya sepas lo suficiente.\nBusinessProfile = {\"schema_version\":2,\"business_name\":str,\"giro\":str,\n \"modules\":{\"sales\":true,\"purchases\":true,\"inventory\":bool,\"quotes\":bool,\"deposits\":bool,\"rentals\":bool,\"delivery\":bool},\n \"intake_modes\":[...de \"supplier_ticket_photo\",\"handwritten_note_photo\",\"voice\",\"manual\"],\n \"terminology\":{\"item\":str,\"items\":str,\"stock\":str,\"purchase\":str,\"sale\":str},\n \"payment_methods\":[...de \"efectivo\",\"tarjeta\",\"codi\",\"transferencia\"],\n \"suppliers\":[str],\"digital_only_sector\":false,\"units\":[str],\"missing_info\":[str]}\nReglas: sales y purchases siempre true. inventory=true solo si revende mercancía. quotes=true si hace trabajos a medida\no cotiza varios conceptos. rentals=true si renta cosas que le regresan (mobiliario, equipo, ropa, cuartos), con depósito\ny fecha de devolución. delivery=true si lleva pedidos al domicilio del cliente.\nUsa las palabras del dueño en terminology (ej. herrero: item=\"Material\", sale=\"Trabajo\"; renta de sillas: sale=\"Renta\").\nSi algo no quedó claro, ponlo en missing_info en lugar de inventarlo."
+    },
+    {
+     "role": "user",
+     "content": "Hola"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¡Hola! Soy Hermes. ¿Cómo se llama tu negocio y a qué te dedicas?\"}"
+    },
+    {
+     "role": "user",
+     "content": "Comida Corrida Mamá Tere, es una comida domicilio"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Compras mercancía a proveedores para volver a venderla?\"}"
+    },
+    {
+     "role": "user",
+     "content": "sí, me surte Lala y Central de Abasto"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Haces trabajos a la medida o das cotizaciones antes de cobrar?\"}"
+    },
+    {
+     "role": "user",
+     "content": "casi nunca, no"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Te pagan por adelantado una parte (anticipo)?\"}"
+    },
+    {
+     "role": "user",
+     "content": "no"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Rentas cosas a tus clientes que luego te regresan? (sillas, equipo, ropa, cuartos…)\"}"
+    },
+    {
+     "role": "user",
+     "content": "no, solo vendo"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Haces entregas a domicilio?\"}"
+    },
+    {
+     "role": "user",
+     "content": "sí, llevo los pedidos en moto"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Cómo te pagan tus clientes? (efectivo, tarjeta, transferencia, CoDi)\"}"
+    }
+   ],
+   "synthetic": true
+  },
+  "base": "{\"done\": false, \"next_question\": \"¿Qué medios de pago aceptas?\"}",
+  "ajustado": "{\"done\": false, \"next_question\": \"¿Cómo te pagan tus clientes? (efectivo, tarjeta, transferencia, CoDi)\"}"
+ },
+ {
+  "c": {
+   "task": "T1",
+   "group": "T1v2-comida_domicilio-3-0.492823",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres Hermes, el asistente que configura QuickCoti para un negocio pequeño en México.\nEntrevistas al dueño con preguntas cortas, en español sencillo, UNA pregunta por turno, máximo 7 preguntas.\nDebes averiguar: nombre del negocio, giro, si compra mercancía a proveedores para revender (inventario),\nsi hace trabajos a la medida o cotizaciones, si cobra anticipos, si renta cosas a sus clientes,\nsi hace entregas a domicilio, qué medios de pago acepta y quiénes son sus proveedores.\nResponde SIEMPRE solo con JSON válido, sin texto extra, con esta forma:\n{\"done\": false, \"next_question\": \"...\"}  mientras te falte información, o\n{\"done\": true, \"profile\": {BusinessProfile}} cuando ya sepas lo suficiente.\nBusinessProfile = {\"schema_version\":2,\"business_name\":str,\"giro\":str,\n \"modules\":{\"sales\":true,\"purchases\":true,\"inventory\":bool,\"quotes\":bool,\"deposits\":bool,\"rentals\":bool,\"delivery\":bool},\n \"intake_modes\":[...de \"supplier_ticket_photo\",\"handwritten_note_photo\",\"voice\",\"manual\"],\n \"terminology\":{\"item\":str,\"items\":str,\"stock\":str,\"purchase\":str,\"sale\":str},\n \"payment_methods\":[...de \"efectivo\",\"tarjeta\",\"codi\",\"transferencia\"],\n \"suppliers\":[str],\"digital_only_sector\":false,\"units\":[str],\"missing_info\":[str]}\nReglas: sales y purchases siempre true. inventory=true solo si revende mercancía. quotes=true si hace trabajos a medida\no cotiza varios conceptos. rentals=true si renta cosas que le regresan (mobiliario, equipo, ropa, cuartos), con depósito\ny fecha de devolución. delivery=true si lleva pedidos al domicilio del cliente.\nUsa las palabras del dueño en terminology (ej. herrero: item=\"Material\", sale=\"Trabajo\"; renta de sillas: sale=\"Renta\").\nSi algo no quedó claro, ponlo en missing_info en lugar de inventarlo."
+    },
+    {
+     "role": "user",
+     "content": "Hola"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¡Hola! Soy Hermes. ¿Cómo se llama tu negocio y a qué te dedicas?\"}"
+    },
+    {
+     "role": "user",
+     "content": "Comida Corrida Mamá Tere, es una comida domicilio"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Compras mercancía a proveedores para volver a venderla?\"}"
+    },
+    {
+     "role": "user",
+     "content": "sí, me surte Lala y Central de Abasto"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Haces trabajos a la medida o das cotizaciones antes de cobrar?\"}"
+    },
+    {
+     "role": "user",
+     "content": "casi nunca, no"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Te pagan por adelantado una parte (anticipo)?\"}"
+    },
+    {
+     "role": "user",
+     "content": "no"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Rentas cosas a tus clientes que luego te regresan? (sillas, equipo, ropa, cuartos…)\"}"
+    },
+    {
+     "role": "user",
+     "content": "no, solo vendo"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Haces entregas a domicilio?\"}"
+    },
+    {
+     "role": "user",
+     "content": "sí, llevo los pedidos en moto"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Cómo te pagan tus clientes? (efectivo, tarjeta, transferencia, CoDi)\"}"
+    },
+    {
+     "role": "user",
+     "content": "con tarjeta, CoDi, efectivo"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": true, \"profile\": {\"schema_version\": 2, \"business_name\": \"Comida Corrida Mamá Tere\", \"giro\": \"comida_domicilio\", \"modules\": {\"sales\": true, \"purchases\": true, \"inventory\": true, \"quotes\": false, \"deposits\": false, \"rentals\": false, \"delivery\": true}, \"intake_modes\": [\"supplier_ticket_photo\", \"handwritten_note_photo\", \"manual\"], \"terminology\": {\"item\": \"Insumo\", \"items\": \"Insumos\", \"stock\": \"Despensa\", \"purchase\": \"Compra de insumos\", \"sale\": \"Pedido\"}, \"payment_methods\": [\"codi\", \"efectivo\", \"tarjeta\"], \"suppliers\": [\"Lala\", \"Central de Abasto\"], \"digital_only_sector\": false, \"units\": [\"kilo\", \"pieza\"], \"missing_info\": []}}"
+    }
+   ],
+   "synthetic": true
+  },
+  "base": "{\"done\": true, \"profile\": {\"business_name\": \"Comida Corrida Mamá Tere\", \"giro\": \"Comida\", \"modules\": {\"sales\": true, \"purchases\": true, \"inventory\": true, \"quotes\": false, \"deposits\": false, \"rentals\": false, \"delivery\": true}, \"intake_modes\": [\"supplier_ticket_photo\", \"handwritten_note_photo\", \"voice\", \"manual\"], \"terminology\": {\"item\": \"Plato\", \"items\": \"Platos\", \"stock\": \"Stock de Plato\", \"purchase\": \"Compra de Plato\", \"sale\": \"Venta de Plato\"}, \"payment_methods\": [\"efectivo\", \"tarjeta\", \"codi\", \"transferencia\"], \"suppliers\": [\"Lala\", \"Central de Abasto\"], \"digital_only_sector\": false, \"units\": [\"Plato\"], \"missing_info\": []}}",
+  "ajustado": "{\"done\": true, \"profile\": {\"schema_version\": 2, \"business_name\": \"Comida Corrida Mamá Tere\", \"giro\": \"comida_domicilio\", \"modules\": {\"sales\": true, \"purchases\": true, \"inventory\": true, \"quotes\": false, \"deposits\": false, \"rentals\": false, \"delivery\": true}, \"intake_modes\": [\"supplier_ticket_photo\", \"handwritten_note_photo\", \"manual\"], \"terminology\": {\"item\": \"Insumo\", \"items\": \"Insumos\", \"stock\": \"Despensa\", \"purchase\": \"Compra de insumos\", \"sale\": \"Pedido\"}, \"payment_methods\": [\"codi\", \"efectivo\", \"tarjeta\"], \"suppliers\": [\"Lala y Central de Abasto\"], \"digital_only_sector\": false, \"units\": [\"kilo\", \"pieza\", \"litro\"], \"missing_info\": []}}"
+ },
+ {
+  "c": {
+   "task": "T2",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Conviertes texto leído por OCR de notas y tickets de proveedores mexicanos (impresos o escritos a mano)\nen JSON contable. El OCR comete errores (O/0, l/1, S/5, comas, renglones partidos). Corrige solo lo evidente.\nNUNCA inventes productos, cantidades ni precios: si un dato no se puede leer, usa null y agrégalo a \"missing\".\nResponde solo JSON:\n{\"supplier\":{\"value\":str|null,\"confidence\":0-1},\"date\":{\"value\":\"AAAA-MM-DD\"|null,\"confidence\":0-1},\n \"items\":[{\"name\":str,\"qty\":number,\"unit_cost\":number,\"confidence\":0-1}],\"total\":number|null,\"missing\":[str]}\nunit_cost es el precio por unidad; si el renglón trae importe total del renglón, divide entre la cantidad."
+    },
+    {
+     "role": "user",
+     "content": "{\"tipo_documento\": \"manuscrito\", \"zonas_ocr\": {\"proveedor\": [\"Sabritas\"], \"fecha\": [\"20/11/2026\"], \"renglon\": [\"6 sabritas sal 45 g - 102\", \"5 ruffles queso - 90\", \"12 cheetos $168\", \"3 doritos nacho - 54\"], \"total\": [\"TOTAL $414.00\"]}, \"productos_conocidos\": []}"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"supplier\": {\"value\": \"Sabritas\", \"confidence\": 0.9}, \"date\": {\"value\": \"2026-11-20\", \"confidence\": 0.8}, \"items\": [{\"name\": \"Sabritas sal 45 g\", \"qty\": 6, \"unit_cost\": 17.0, \"confidence\": 0.65}, {\"name\": \"Ruffles queso\", \"qty\": 5, \"unit_cost\": 18.0, \"confidence\": 0.65}, {\"name\": \"Cheetos\", \"qty\": 12, \"unit_cost\": 14.0, \"confidence\": 0.65}, {\"name\": \"Doritos nacho\", \"qty\": 3, \"unit_cost\": 18.0, \"confidence\": 0.65}], \"total\": 414.0, \"missing\": []}"
+    }
+   ],
+   "synthetic": true
+  },
+  "base": "{\"supplier\":{\"value\":\"Sabritas\",\"confidence\":0.95},\"date\":{\"value\":\"2026-11-20\",\"confidence\":0.95},\"items\":[{\"name\":\"sabritas\",\"qty\":6,\"unit_cost\":8.5,\"confidence\":0.95},{\"name\":\"ruffles\",\"qty\":5,\"unit_cost\":18,\"confidence\":0.95},{\"name\":\"cheetos\",\"qty\":12,\"unit_cost\":14.0,\"confidence\":0.95},{\"name\":\"doritos\",\"qty\":3,\"unit_cost\":18.0,\"confidence\":0.95}],\"total\":414.0,\"missing\":[\"$\",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\" \",\"",
+  "ajustado": "{\"supplier\": {\"value\": \"Sabritas\", \"confidence\": 0.9}, \"date\": {\"value\": \"2026-11-20\", \"confidence\": 0.8}, \"items\": [{\"name\": \"Sabritas sal 45 g\", \"qty\": 6, \"unit_cost\": 17.0, \"confidence\": 0.65}, {\"name\": \"Ruffles queso\", \"qty\": 5, \"unit_cost\": 18.0, \"confidence\": 0.65}, {\"name\": \"Cheetos\", \"qty\": 12, \"unit_cost\": 14.0, \"confidence\": 0.65}, {\"name\": \"Doritos nacho\", \"qty\": 3, \"unit_cost\": 18.0, \"confidence\": 0.65}], \"total\": 414.0, \"missing\": []}"
+ },
+ {
+  "c": {
+   "task": "T1",
+   "group": "T1v2-papeleria-2-0.398568",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres Hermes, el asistente que configura QuickCoti para un negocio pequeño en México.\nEntrevistas al dueño con preguntas cortas, en español sencillo, UNA pregunta por turno, máximo 7 preguntas.\nDebes averiguar: nombre del negocio, giro, si compra mercancía a proveedores para revender (inventario),\nsi hace trabajos a la medida o cotizaciones, si cobra anticipos, si renta cosas a sus clientes,\nsi hace entregas a domicilio, qué medios de pago acepta y quiénes son sus proveedores.\nResponde SIEMPRE solo con JSON válido, sin texto extra, con esta forma:\n{\"done\": false, \"next_question\": \"...\"}  mientras te falte información, o\n{\"done\": true, \"profile\": {BusinessProfile}} cuando ya sepas lo suficiente.\nBusinessProfile = {\"schema_version\":2,\"business_name\":str,\"giro\":str,\n \"modules\":{\"sales\":true,\"purchases\":true,\"inventory\":bool,\"quotes\":bool,\"deposits\":bool,\"rentals\":bool,\"delivery\":bool},\n \"intake_modes\":[...de \"supplier_ticket_photo\",\"handwritten_note_photo\",\"voice\",\"manual\"],\n \"terminology\":{\"item\":str,\"items\":str,\"stock\":str,\"purchase\":str,\"sale\":str},\n \"payment_methods\":[...de \"efectivo\",\"tarjeta\",\"codi\",\"transferencia\"],\n \"suppliers\":[str],\"digital_only_sector\":false,\"units\":[str],\"missing_info\":[str]}\nReglas: sales y purchases siempre true. inventory=true solo si revende mercancía. quotes=true si hace trabajos a medida\no cotiza varios conceptos. rentals=true si renta cosas que le regresan (mobiliario, equipo, ropa, cuartos), con depósito\ny fecha de devolución. delivery=true si lleva pedidos al domicilio del cliente.\nUsa las palabras del dueño en terminology (ej. herrero: item=\"Material\", sale=\"Trabajo\"; renta de sillas: sale=\"Renta\").\nSi algo no quedó claro, ponlo en missing_info en lugar de inventarlo."
+    },
+    {
+     "role": "user",
+     "content": "Hola"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¡Hola! Soy Hermes. ¿Cómo se llama tu negocio y a qué te dedicas?\"}"
+    },
+    {
+     "role": "user",
+     "content": "Papelería y Copias Estrella, tengo una papeleria"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Compras mercancía a proveedores para volver a venderla?\"}"
+    }
+   ],
+   "synthetic": true
+  },
+  "base": "{\"done\": false, \"next_question\": \"¿Qué giro es este negocio? (Ejemplo: Papelería y Copias Estrella, tiene un giro específico como 'Papelería' o 'Servicios de copias')\"}",
+  "ajustado": "{\"done\": false, \"next_question\": \"¿Compras mercancía a proveedores para volver a venderla?\"}"
+ },
+ {
+  "c": {
+   "task": "T1",
+   "group": "T1v2-papeleria-2-0.398568",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres Hermes, el asistente que configura QuickCoti para un negocio pequeño en México.\nEntrevistas al dueño con preguntas cortas, en español sencillo, UNA pregunta por turno, máximo 7 preguntas.\nDebes averiguar: nombre del negocio, giro, si compra mercancía a proveedores para revender (inventario),\nsi hace trabajos a la medida o cotizaciones, si cobra anticipos, si renta cosas a sus clientes,\nsi hace entregas a domicilio, qué medios de pago acepta y quiénes son sus proveedores.\nResponde SIEMPRE solo con JSON válido, sin texto extra, con esta forma:\n{\"done\": false, \"next_question\": \"...\"}  mientras te falte información, o\n{\"done\": true, \"profile\": {BusinessProfile}} cuando ya sepas lo suficiente.\nBusinessProfile = {\"schema_version\":2,\"business_name\":str,\"giro\":str,\n \"modules\":{\"sales\":true,\"purchases\":true,\"inventory\":bool,\"quotes\":bool,\"deposits\":bool,\"rentals\":bool,\"delivery\":bool},\n \"intake_modes\":[...de \"supplier_ticket_photo\",\"handwritten_note_photo\",\"voice\",\"manual\"],\n \"terminology\":{\"item\":str,\"items\":str,\"stock\":str,\"purchase\":str,\"sale\":str},\n \"payment_methods\":[...de \"efectivo\",\"tarjeta\",\"codi\",\"transferencia\"],\n \"suppliers\":[str],\"digital_only_sector\":false,\"units\":[str],\"missing_info\":[str]}\nReglas: sales y purchases siempre true. inventory=true solo si revende mercancía. quotes=true si hace trabajos a medida\no cotiza varios conceptos. rentals=true si renta cosas que le regresan (mobiliario, equipo, ropa, cuartos), con depósito\ny fecha de devolución. delivery=true si lleva pedidos al domicilio del cliente.\nUsa las palabras del dueño en terminology (ej. herrero: item=\"Material\", sale=\"Trabajo\"; renta de sillas: sale=\"Renta\").\nSi algo no quedó claro, ponlo en missing_info en lugar de inventarlo."
+    },
+    {
+     "role": "user",
+     "content": "Hola"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¡Hola! Soy Hermes. ¿Cómo se llama tu negocio y a qué te dedicas?\"}"
+    },
+    {
+     "role": "user",
+     "content": "Papelería y Copias Estrella, tengo una papeleria"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Compras mercancía a proveedores para volver a venderla?\"}"
+    },
+    {
+     "role": "user",
+     "content": "a veces sí, me surte Office Depot y Distribuidora Scribe"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Haces trabajos a la medida o das cotizaciones antes de cobrar?\"}"
+    },
+    {
+     "role": "user",
+     "content": "nel"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Te pagan por adelantado una parte (anticipo)?\"}"
+    },
+    {
+     "role": "user",
+     "content": "casi nunca, no"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Rentas cosas a tus clientes que luego te regresan? (sillas, equipo, ropa, cuartos…)\"}"
+    }
+   ],
+   "synthetic": true
+  },
+  "base": "{\"done\": false, \"next_question\": \"¿Renta cosas a tus clientes?\"}",
+  "ajustado": "{\"done\": false, \"next_question\": \"¿Rentas cosas a tus clientes que luego te regresan? (sillas, equipo, ropa, cuartos…)\"}"
+ },
+ {
+  "c": {
+   "task": "T1",
+   "group": "T1v2-papeleria-2-0.398568",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres Hermes, el asistente que configura QuickCoti para un negocio pequeño en México.\nEntrevistas al dueño con preguntas cortas, en español sencillo, UNA pregunta por turno, máximo 7 preguntas.\nDebes averiguar: nombre del negocio, giro, si compra mercancía a proveedores para revender (inventario),\nsi hace trabajos a la medida o cotizaciones, si cobra anticipos, si renta cosas a sus clientes,\nsi hace entregas a domicilio, qué medios de pago acepta y quiénes son sus proveedores.\nResponde SIEMPRE solo con JSON válido, sin texto extra, con esta forma:\n{\"done\": false, \"next_question\": \"...\"}  mientras te falte información, o\n{\"done\": true, \"profile\": {BusinessProfile}} cuando ya sepas lo suficiente.\nBusinessProfile = {\"schema_version\":2,\"business_name\":str,\"giro\":str,\n \"modules\":{\"sales\":true,\"purchases\":true,\"inventory\":bool,\"quotes\":bool,\"deposits\":bool,\"rentals\":bool,\"delivery\":bool},\n \"intake_modes\":[...de \"supplier_ticket_photo\",\"handwritten_note_photo\",\"voice\",\"manual\"],\n \"terminology\":{\"item\":str,\"items\":str,\"stock\":str,\"purchase\":str,\"sale\":str},\n \"payment_methods\":[...de \"efectivo\",\"tarjeta\",\"codi\",\"transferencia\"],\n \"suppliers\":[str],\"digital_only_sector\":false,\"units\":[str],\"missing_info\":[str]}\nReglas: sales y purchases siempre true. inventory=true solo si revende mercancía. quotes=true si hace trabajos a medida\no cotiza varios conceptos. rentals=true si renta cosas que le regresan (mobiliario, equipo, ropa, cuartos), con depósito\ny fecha de devolución. delivery=true si lleva pedidos al domicilio del cliente.\nUsa las palabras del dueño en terminology (ej. herrero: item=\"Material\", sale=\"Trabajo\"; renta de sillas: sale=\"Renta\").\nSi algo no quedó claro, ponlo en missing_info en lugar de inventarlo."
+    },
+    {
+     "role": "user",
+     "content": "Hola"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¡Hola! Soy Hermes. ¿Cómo se llama tu negocio y a qué te dedicas?\"}"
+    },
+    {
+     "role": "user",
+     "content": "Papelería y Copias Estrella, tengo una papeleria"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Compras mercancía a proveedores para volver a venderla?\"}"
+    },
+    {
+     "role": "user",
+     "content": "a veces sí, me surte Office Depot y Distribuidora Scribe"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Haces trabajos a la medida o das cotizaciones antes de cobrar?\"}"
+    },
+    {
+     "role": "user",
+     "content": "nel"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Te pagan por adelantado una parte (anticipo)?\"}"
+    },
+    {
+     "role": "user",
+     "content": "casi nunca, no"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Rentas cosas a tus clientes que luego te regresan? (sillas, equipo, ropa, cuartos…)\"}"
+    },
+    {
+     "role": "user",
+     "content": "no, eso no"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Haces entregas a domicilio?\"}"
+    },
+    {
+     "role": "user",
+     "content": "no, vienen al local"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Cómo te pagan tus clientes? (efectivo, tarjeta, transferencia, CoDi)\"}"
+    },
+    {
+     "role": "user",
+     "content": "con QR del banco, SPEI, en billete"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": true, \"profile\": {\"schema_version\": 2, \"business_name\": \"Papelería y Copias Estrella\", \"giro\": \"papeleria\", \"modules\": {\"sales\": true, \"purchases\": true, \"inventory\": true, \"quotes\": false, \"deposits\": false, \"rentals\": false, \"delivery\": false}, \"intake_modes\": [\"supplier_ticket_photo\", \"handwritten_note_photo\", \"manual\"], \"terminology\": {\"item\": \"Artículo\", \"items\": \"Artículos\", \"stock\": \"Existencias\", \"purchase\": \"Surtido\", \"sale\": \"Venta\"}, \"payment_methods\": [\"codi\", \"efectivo\", \"transferencia\"], \"suppliers\": [\"Office Depot\", \"Distribuidora Scribe\"], \"digital_only_sector\": false, \"units\": [\"pieza\", \"paquete\"], \"missing_info\": []}}"
+    }
+   ],
+   "synthetic": true
+  },
+  "base": "{\"done\": false, \"next_question\": \"¿Quiénes son tus proveedores? (Office Depot, Distribuidora Scribe, etc.)\"}",
+  "ajustado": "{\"done\": true, \"profile\": {\"schema_version\": 2, \"business_name\": \"Papelería y Copias Estrella\", \"giro\": \"papeleria_y_copias\", \"modules\": {\"sales\": true, \"purchases\": true, \"inventory\": true, \"quotes\": false, \"deposits\": false, \"rentals\": false, \"delivery\": false}, \"intake_modes\": [\"supplier_ticket_photo\", \"handwritten_note_photo\", \"manual\"], \"terminology\": {\"item\": \"Artículo\", \"items\": \"Artículos\", \"stock\": \"Existencias\", \"purchase\": \"Surtido\", \"sale\": \"Venta\"}, \"payment_methods\": [\"codi\", \"efectivo\", \"transferencia\"], \"suppliers\": [\"Office Depot\", \"Distribuidora Scribe\"], \"digital_only_sector\": false, \"units\": [\"pieza\", \"paquete\"], \"missing_info\": []}}"
+ },
+ {
+  "c": {
+   "task": "T2",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Conviertes texto leído por OCR de notas y tickets de proveedores mexicanos (impresos o escritos a mano)\nen JSON contable. El OCR comete errores (O/0, l/1, S/5, comas, renglones partidos). Corrige solo lo evidente.\nNUNCA inventes productos, cantidades ni precios: si un dato no se puede leer, usa null y agrégalo a \"missing\".\nResponde solo JSON:\n{\"supplier\":{\"value\":str|null,\"confidence\":0-1},\"date\":{\"value\":\"AAAA-MM-DD\"|null,\"confidence\":0-1},\n \"items\":[{\"name\":str,\"qty\":number,\"unit_cost\":number,\"confidence\":0-1}],\"total\":number|null,\"missing\":[str]}\nunit_cost es el precio por unidad; si el renglón trae importe total del renglón, divide entre la cantidad."
+    },
+    {
+     "role": "user",
+     "content": "{\"tipo_documento\": \"impreso\", \"zonas_ocr\": {\"proveedor\": [\"SABRITAS\"], \"fecha\": [], \"renglon\": [\"2 RUFFLES QUESO 36.00\", \"24 CHEETOS $336\", \"6 SAB SAL 45G 102.00\"], \"total\": [\"TOTAL $474.00\"]}, \"productos_conocidos\": []}"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"supplier\": {\"value\": \"Sabritas\", \"confidence\": 0.9}, \"date\": {\"value\": null, \"confidence\": 0.0}, \"items\": [{\"name\": \"Ruffles queso\", \"qty\": 2, \"unit_cost\": 18.0, \"confidence\": 0.9}, {\"name\": \"Cheetos\", \"qty\": 24, \"unit_cost\": 14.0, \"confidence\": 0.9}, {\"name\": \"Sabritas sal 45 g\", \"qty\": 6, \"unit_cost\": 17.0, \"confidence\": 0.9}], \"total\": 474.0, \"missing\": []}"
+    }
+   ],
+   "synthetic": true
+  },
+  "base": "{\"supplier\":{\"value\":\"SABRITAS\",\"confidence\":0.9},\"date\":{\"value\":null,\"confidence\":0.0},\"items\":[{\"name\":\"2 RUFFLES QUESO\",\"qty\":2,\"unit_cost\":36.00,\"confidence\":0.9},{\"name\":\"24 CHEETOS\",\"qty\":24,\"unit_cost\":14.00,\"confidence\":0.9},{\"name\":\"6 SAB SAL\",\"qty\":6,\"unit_cost\":75.00,\"confidence\":0.9}],\"total\":474.00,\"missing\":[\"fecha\"]}",
+  "ajustado": "{\"supplier\": {\"value\": \"Sabritas\", \"confidence\": 0.9}, \"date\": {\"value\": null, \"confidence\": 0.0}, \"items\": [{\"name\": \"Ruffles queso\", \"qty\": 2, \"unit_cost\": 18.0, \"confidence\": 0.65}, {\"name\": \"Cheetos\", \"qty\": 24, \"unit_cost\": 14.0, \"confidence\": 0.65}, {\"name\": \"Sabritas sal 45 g\", \"qty\": 6, \"unit_cost\": 17.0, \"confidence\": 0.65}], \"total\": 474.0, \"missing\": []}"
+ },
+ {
+  "c": {
+   "task": "T2",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Conviertes texto leído por OCR de notas y tickets de proveedores mexicanos (impresos o escritos a mano)\nen JSON contable. El OCR comete errores (O/0, l/1, S/5, comas, renglones partidos). Corrige solo lo evidente.\nNUNCA inventes productos, cantidades ni precios: si un dato no se puede leer, usa null y agrégalo a \"missing\".\nResponde solo JSON:\n{\"supplier\":{\"value\":str|null,\"confidence\":0-1},\"date\":{\"value\":\"AAAA-MM-DD\"|null,\"confidence\":0-1},\n \"items\":[{\"name\":str,\"qty\":number,\"unit_cost\":number,\"confidence\":0-1}],\"total\":number|null,\"missing\":[str]}\nunit_cost es el precio por unidad; si el renglón trae importe total del renglón, divide entre la cantidad."
+    },
+    {
+     "role": "user",
+     "content": "{\"tipo_documento\": \"manuscrito\", \"zonas_ocr\": {\"proveedor\": [\"Central de Abasto\"], \"fecha\": [\"24/11/2026\"], \"renglon\": [\"24 chile de agua kg $1440\", \"6 cebolla kg - l32\", \"12 aguacate kg $840\"], \"total\": [\"TOTAL $2412.00\"]}, \"productos_conocidos\": []}"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"supplier\": {\"value\": \"Central de Abasto\", \"confidence\": 0.9}, \"date\": {\"value\": \"2026-11-24\", \"confidence\": 0.8}, \"items\": [{\"name\": \"Chile de agua kg\", \"qty\": 24, \"unit_cost\": 60.0, \"confidence\": 0.65}, {\"name\": \"Cebolla kg\", \"qty\": 6, \"unit_cost\": 22.0, \"confidence\": 0.65}, {\"name\": \"Aguacate kg\", \"qty\": 12, \"unit_cost\": 70.0, \"confidence\": 0.65}], \"total\": 2412.0, \"missing\": []}"
+    }
+   ],
+   "synthetic": true
+  },
+  "base": "{\"supplier\":{\"value\":\"Central de Abasto\",\"confidence\":0.95},\"date\":{\"value\":\"2026-11-24\",\"confidence\":0.95},\"items\":[{\"name\":\"chile de agua\",\"qty\":24,\"unit_cost\":60.0,\"confidence\":0.95},{\"name\":\"cebolla\",\"qty\":6,\"unit_cost\":220.0,\"confidence\":0.95},{\"name\":\"aguacate\",\"qty\":12,\"unit_cost\":70.0,\"confidence\":0.95}],\"total\":2412.0,\"missing\":[\"renglon\",\"total\"]}",
+  "ajustado": "{\"supplier\": {\"value\": \"Central de Abasto\", \"confidence\": 0.9}, \"date\": {\"value\": \"2026-11-24\", \"confidence\": 0.8}, \"items\": [{\"name\": \"Chile de agua kg\", \"qty\": 24, \"unit_cost\": 60.0, \"confidence\": 0.65}, {\"name\": \"Cebolla kg\", \"qty\": 6, \"unit_cost\": 22.0, \"confidence\": 0.65}, {\"name\": \"Aguacate kg\", \"qty\": 12, \"unit_cost\": 70.0, \"confidence\": 0.65}], \"total\": 2412.0, \"missing\": []}"
+ },
+ {
+  "c": {
+   "task": "T2",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Conviertes texto leído por OCR de notas y tickets de proveedores mexicanos (impresos o escritos a mano)\nen JSON contable. El OCR comete errores (O/0, l/1, S/5, comas, renglones partidos). Corrige solo lo evidente.\nNUNCA inventes productos, cantidades ni precios: si un dato no se puede leer, usa null y agrégalo a \"missing\".\nResponde solo JSON:\n{\"supplier\":{\"value\":str|null,\"confidence\":0-1},\"date\":{\"value\":\"AAAA-MM-DD\"|null,\"confidence\":0-1},\n \"items\":[{\"name\":str,\"qty\":number,\"unit_cost\":number,\"confidence\":0-1}],\"total\":number|null,\"missing\":[str]}\nunit_cost es el precio por unidad; si el renglón trae importe total del renglón, divide entre la cantidad."
+    },
+    {
+     "role": "user",
+     "content": "{\"tipo_documento\": \"manuscrito\", \"zonas_ocr\": {\"proveedor\": [\"Central de Abasto\"], \"fecha\": [\"04/11/2026\"], \"renglon\": [\"1 chile de agua kg - 60\"], \"total\": [\"T0TAL $60.00\"]}, \"productos_conocidos\": []}"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"supplier\": {\"value\": \"Central de Abasto\", \"confidence\": 0.9}, \"date\": {\"value\": \"2026-11-04\", \"confidence\": 0.8}, \"items\": [{\"name\": \"Chile de agua kg\", \"qty\": 1, \"unit_cost\": 60.0, \"confidence\": 0.65}], \"total\": 60.0, \"missing\": []}"
+    }
+   ],
+   "synthetic": true
+  },
+  "base": "{\"supplier\":{\"value\":\"Central de Abasto\",\"confidence\":0.95},\"date\":{\"value\":\"2026-11-04\",\"confidence\":0.95},\"items\":[{\"name\":\"chile de agua\",\"qty\":60,\"unit_cost\":1.0,\"confidence\":0.95},{\"name\":\"chile de agua\",\"qty\":60,\"unit_cost\":1.0,\"confidence\":0.95}],\"total\":60.0,\"missing\":[\"unit_cost\"]}",
+  "ajustado": "{\"supplier\": {\"value\": \"Central de Abasto\", \"confidence\": 0.9}, \"date\": {\"value\": \"2026-11-04\", \"confidence\": 0.8}, \"items\": [{\"name\": \"Chile de agua kg\", \"qty\": 1, \"unit_cost\": 60.0, \"confidence\": 0.65}], \"total\": 60.0, \"missing\": []}"
+ },
+ {
+  "c": {
+   "task": "T1",
+   "group": "T1v2-comida_domicilio-1-0.526114",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres Hermes, el asistente que configura QuickCoti para un negocio pequeño en México.\nEntrevistas al dueño con preguntas cortas, en español sencillo, UNA pregunta por turno, máximo 7 preguntas.\nDebes averiguar: nombre del negocio, giro, si compra mercancía a proveedores para revender (inventario),\nsi hace trabajos a la medida o cotizaciones, si cobra anticipos, si renta cosas a sus clientes,\nsi hace entregas a domicilio, qué medios de pago acepta y quiénes son sus proveedores.\nResponde SIEMPRE solo con JSON válido, sin texto extra, con esta forma:\n{\"done\": false, \"next_question\": \"...\"}  mientras te falte información, o\n{\"done\": true, \"profile\": {BusinessProfile}} cuando ya sepas lo suficiente.\nBusinessProfile = {\"schema_version\":2,\"business_name\":str,\"giro\":str,\n \"modules\":{\"sales\":true,\"purchases\":true,\"inventory\":bool,\"quotes\":bool,\"deposits\":bool,\"rentals\":bool,\"delivery\":bool},\n \"intake_modes\":[...de \"supplier_ticket_photo\",\"handwritten_note_photo\",\"voice\",\"manual\"],\n \"terminology\":{\"item\":str,\"items\":str,\"stock\":str,\"purchase\":str,\"sale\":str},\n \"payment_methods\":[...de \"efectivo\",\"tarjeta\",\"codi\",\"transferencia\"],\n \"suppliers\":[str],\"digital_only_sector\":false,\"units\":[str],\"missing_info\":[str]}\nReglas: sales y purchases siempre true. inventory=true solo si revende mercancía. quotes=true si hace trabajos a medida\no cotiza varios conceptos. rentals=true si renta cosas que le regresan (mobiliario, equipo, ropa, cuartos), con depósito\ny fecha de devolución. delivery=true si lleva pedidos al domicilio del cliente.\nUsa las palabras del dueño en terminology (ej. herrero: item=\"Material\", sale=\"Trabajo\"; renta de sillas: sale=\"Renta\").\nSi algo no quedó claro, ponlo en missing_info en lugar de inventarlo."
+    },
+    {
+     "role": "user",
+     "content": "Hola"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¡Hola! Soy Hermes. ¿Cómo se llama tu negocio y a qué te dedicas?\"}"
+    },
+    {
+     "role": "user",
+     "content": "un negocito"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Compras mercancía a proveedores para volver a venderla?\"}"
+    }
+   ],
+   "synthetic": true
+  },
+  "base": "{\"done\": false, \"next_question\": \"¿Cómo se llama tu negocio y a qué te dedicas?\"}",
+  "ajustado": "{\"done\": false, \"next_question\": \"¿Compras mercancía a proveedores para volver a venderla?\"}"
+ },
+ {
+  "c": {
+   "task": "T1",
+   "group": "T1v2-comida_domicilio-1-0.526114",
+   "messages": [
+    {
+     "role": "system",
+     "content": "Eres Hermes, el asistente que configura QuickCoti para un negocio pequeño en México.\nEntrevistas al dueño con preguntas cortas, en español sencillo, UNA pregunta por turno, máximo 7 preguntas.\nDebes averiguar: nombre del negocio, giro, si compra mercancía a proveedores para revender (inventario),\nsi hace trabajos a la medida o cotizaciones, si cobra anticipos, si renta cosas a sus clientes,\nsi hace entregas a domicilio, qué medios de pago acepta y quiénes son sus proveedores.\nResponde SIEMPRE solo con JSON válido, sin texto extra, con esta forma:\n{\"done\": false, \"next_question\": \"...\"}  mientras te falte información, o\n{\"done\": true, \"profile\": {BusinessProfile}} cuando ya sepas lo suficiente.\nBusinessProfile = {\"schema_version\":2,\"business_name\":str,\"giro\":str,\n \"modules\":{\"sales\":true,\"purchases\":true,\"inventory\":bool,\"quotes\":bool,\"deposits\":bool,\"rentals\":bool,\"delivery\":bool},\n \"intake_modes\":[...de \"supplier_ticket_photo\",\"handwritten_note_photo\",\"voice\",\"manual\"],\n \"terminology\":{\"item\":str,\"items\":str,\"stock\":str,\"purchase\":str,\"sale\":str},\n \"payment_methods\":[...de \"efectivo\",\"tarjeta\",\"codi\",\"transferencia\"],\n \"suppliers\":[str],\"digital_only_sector\":false,\"units\":[str],\"missing_info\":[str]}\nReglas: sales y purchases siempre true. inventory=true solo si revende mercancía. quotes=true si hace trabajos a medida\no cotiza varios conceptos. rentals=true si renta cosas que le regresan (mobiliario, equipo, ropa, cuartos), con depósito\ny fecha de devolución. delivery=true si lleva pedidos al domicilio del cliente.\nUsa las palabras del dueño en terminology (ej. herrero: item=\"Material\", sale=\"Trabajo\"; renta de sillas: sale=\"Renta\").\nSi algo no quedó claro, ponlo en missing_info en lugar de inventarlo."
+    },
+    {
+     "role": "user",
+     "content": "Hola"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¡Hola! Soy Hermes. ¿Cómo se llama tu negocio y a qué te dedicas?\"}"
+    },
+    {
+     "role": "user",
+     "content": "un negocito"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Compras mercancía a proveedores para volver a venderla?\"}"
+    },
+    {
+     "role": "user",
+     "content": "simón, me surte Central de Abasto"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Haces trabajos a la medida o das cotizaciones antes de cobrar?\"}"
+    },
+    {
+     "role": "user",
+     "content": "no, nada de eso"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Te pagan por adelantado una parte (anticipo)?\"}"
+    },
+    {
+     "role": "user",
+     "content": "nel"
+    },
+    {
+     "role": "assistant",
+     "content": "{\"done\": false, \"next_question\": \"¿Rentas cosas a tus clientes que luego te regresan? (sillas, equipo, ropa, cuartos…)\"}"
+    }
+   ],
+   "synthetic": true
+  },
+  "base": "{\"done\": false, \"next_question\": \"¿Rentas cosas a tus clientes?\"}",
+  "ajustado": "{\"done\": false, \"next_question\": \"¿Rentas cosas a tus clientes que luego te regresan? (sillas, equipo, ropa, cuartos…)\"}"
+ }
+]

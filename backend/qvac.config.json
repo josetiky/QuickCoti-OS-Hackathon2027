@@ -1,0 +1,12 @@
+{
+  "serve": {
+    "models": {
+      "quickcoti": {
+        "src": "../models/quickcoti-merged-q8_0.gguf",
+        "type": "llm",
+        "default": true,
+        "config": { "ctx_size": 4096 }
+      }
+    }
+  }
+}

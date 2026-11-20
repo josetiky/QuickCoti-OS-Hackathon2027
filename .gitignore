@@ -1,0 +1,47 @@
+# --- Dependencias y compilados (se regeneran con npm install / pod install) ---
+node_modules/
+app-rn/ios/Pods/
+app-rn/ios/build/
+app-rn/android/.gradle/
+app-rn/android/app/build/
+app-rn/android/build/
+app-rn/.expo/
+**/__pycache__/
+**/.venv/
+*.xcuserstate
+xcuserdata/
+
+# --- Modelos y archivos pesados (GitHub no acepta >100 MB; súbelos a Releases o Hugging Face) ---
+models/
+*.gguf
+*.onnx
+*.engine
+*.pt
+*.safetensors
+*.tar.gz
+*.zip
+training/llm/llama.cpp/
+training/**/out/
+training/**/runs/
+training/vision/dataset/
+training 2/
+HERMES_V2_ENTREGA/
+ACTUALIZACION_M4/
+app-rn/qvac/
+
+# --- Respaldos locales ---
+respaldo_*/
+
+# --- Secretos (nunca al repo) ---
+.env
+.env.*
+*.pem
+*.p12
+*.mobileprovision
+
+# --- Sistema ---
+.DS_Store
+
+# --- Binarios nativos de QVAC (los regenera npm install / pod install / expo prebuild) ---
+app-rn/ios/QvacBareKit/Frameworks/
+app-rn/android/qvac-bare-kit/src/main/addons/

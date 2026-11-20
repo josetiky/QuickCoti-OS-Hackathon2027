@@ -1,0 +1,8 @@
+ultralytics>=8.3
+datasets>=2.20
+pyyaml
+pillow
+imagehash
+onnx
+onnxslim
+tensorrt ; platform_system == "Linux"

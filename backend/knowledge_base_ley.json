@@ -1,0 +1,32 @@
+[
+  {
+    "id": "ley_art_medios_pago",
+    "topic": "Medios de pago digitales y electrónicos",
+    "source": "Ley de Economía Digital para Pagos Digitales y Electrónicos (DOF 04/11/2026)",
+    "content": "La ley regula el uso de tarjetas de débito y crédito, transferencias electrónicas (SPEI), domiciliaciones, códigos QR (como CoDi y DiMo) y tecnología NFC (pagos sin contacto). Los proveedores de bienes o servicios podrán implementar estos medios conforme a las disposiciones generales."
+  },
+  {
+    "id": "ley_art_efectivo",
+    "topic": "Trato al efectivo y excepciones temporales",
+    "source": "Ley de Economía Digital para Pagos Digitales y Electrónicos (DOF 04/11/2026)",
+    "content": "La ley no elimina el uso de efectivo de forma absoluta en todo el país. La SHCP determinará gradualmente qué sectores estratégicos operarán exclusivamente con medios electrónicos. Además, se permite aceptar efectivo o cheques de forma temporal ante fallas en los sistemas de pago o conectividad."
+  },
+  {
+    "id": "ley_art_expediente",
+    "topic": "Expediente Digital Ciudadano y CURP Digital",
+    "source": "Ley de Economía Digital para Pagos Digitales y Electrónicos (Art. 7-10)",
+    "content": "El Expediente Digital Ciudadano y la CURP Digital tienen validez jurídica para contratar servicios financieros de forma remota y realizar trámites ante los tres órdenes de gobierno (federal, estatal y municipal), quienes están obligados a aceptar pagos electrónicos."
+  },
+  {
+    "id": "finanzas_margen",
+    "topic": "Cálculo de margen y flujo de efectivo en pequeños negocios",
+    "source": "Guía de Educación Financiera para PyMEs (QuickCoti)",
+    "content": "El margen bruto es (Precio de venta - Costo de insumos) / Precio de venta. Registrar por separado ventas digitales (QR, SPEI, tarjeta) y ventas en efectivo permite conocer el índice de digitalización del negocio y demostrar ingresos reales ante bancos para acceder a crédito."
+  },
+  {
+    "id": "formalizacion_resico",
+    "topic": "Formalización paso a paso para microcomercios",
+    "source": "Orientación de Formalización PyME México",
+    "content": "Para formalizarse en México, un pequeño comercio necesita: 1) CURP Digital y RFC activo ante el SAT, 2) e.firma o Contraseña SAT, 3) Evaluar el Régimen Simplificado de Confianza (RESICO) con tasas de ISR bajas (1% a 2.5%), y 4) Cuenta bancaria comercial para recibir cobros QR/SPEI y emitir facturas CFDI 4.0."
+  }
+]

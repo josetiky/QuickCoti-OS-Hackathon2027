@@ -1,0 +1,28 @@
+{
+  "version": 2,
+  "total": 915,
+  "por_conjunto": {
+    "train": {
+      "T3": 284,
+      "T2": 198,
+      "T1": 290
+    },
+    "val": {
+      "T3": 21,
+      "T2": 17,
+      "T1": 29
+    },
+    "test": {
+      "T3": 19,
+      "T2": 25,
+      "T1": 32
+    }
+  },
+  "sintetico": true,
+  "reservados_escritos_a_mano": 12,
+  "novedades": [
+    "rentals",
+    "delivery",
+    "cotización de varios conceptos"
+  ]
+}

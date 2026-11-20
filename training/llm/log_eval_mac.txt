@@ -1,0 +1,81 @@
+/Users/tiki/Desktop/QuickCoti/evento/training/llm/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+`torch_dtype` is deprecated! Use `dtype` instead!
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files:  50%|█████     | 1/2 [04:10<04:10, 250.84s/it]Fetching 2 files: 100%|██████████| 2/2 [05:46<00:00, 173.30s/it]Fetching 2 files: 100%|██████████| 2/2 [05:46<00:00, 173.30s/it]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:02<00:02,  2.00s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:02<00:00,  1.01it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:02<00:00,  1.14s/it]
+dispositivo: {'': 'mps'}
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+base 1 / 32
+base 2 / 32
+base 3 / 32
+base 4 / 32
+base 5 / 32
+base 6 / 32
+base 7 / 32
+base 8 / 32
+base 9 / 32
+base 10 / 32
+base 11 / 32
+base 12 / 32
+base 13 / 32
+base 14 / 32
+base 15 / 32
+base 16 / 32
+base 17 / 32
+base 18 / 32
+base 19 / 32
+base 20 / 32
+base 21 / 32
+base 22 / 32
+base 23 / 32
+base 24 / 32
+base 25 / 32
+base 26 / 32
+base 27 / 32
+base 28 / 32
+base 29 / 32
+base 30 / 32
+base 31 / 32
+base 32 / 32
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+ajustado ok
+Traceback (most recent call last):
+  File "/Users/tiki/Desktop/QuickCoti/evento/training/llm/eval_assistant.py", line 102, in <module>
+    main()
+  File "/Users/tiki/Desktop/QuickCoti/evento/training/llm/eval_assistant.py", line 82, in main
+    sb, sa = score(r["c"], r["base"]), score(r["c"], r["ajustado"])
+  File "/Users/tiki/Desktop/QuickCoti/evento/training/llm/eval_assistant.py", line 38, in score
+    q = sorted(round(float(i.get("qty", 0)) * float(i.get("unit_cost", 0)), 1) for i in (o.get("items") or []) if isinstance(i, dict))
+  File "/Users/tiki/Desktop/QuickCoti/evento/training/llm/eval_assistant.py", line 38, in <genexpr>
+    q = sorted(round(float(i.get("qty", 0)) * float(i.get("unit_cost", 0)), 1) for i in (o.get("items") or []) if isinstance(i, dict))
+TypeError: float() argument must be a string or a number, not 'NoneType'

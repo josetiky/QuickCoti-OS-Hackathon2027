@@ -1,0 +1,53 @@
+{
+  "expo": {
+    "name": "QuickCoti",
+    "slug": "quickcoti-os",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "bundleIdentifier": "com.minegocio.quickcoti.os",
+      "supportsTablet": false,
+      "infoPlist": {
+        "NSCameraUsageDescription": "Usamos la cámara para leer las notas y tickets de tus proveedores.",
+        "NSPhotoLibraryUsageDescription": "Usamos tus fotos para leer notas y tickets de tus proveedores.",
+        "NSLocalNetworkUsageDescription": "QuickCoti descarga los modelos de IA de tu equipo en la red local.",
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true
+        },
+        "NSMicrophoneUsageDescription": "Usamos el micrófono para que puedas hablarle a Hermes y dictar en lugar de escribir.",
+        "NSSpeechRecognitionUsageDescription": "Convertimos tu voz en texto en el iPhone para que puedas dictar preguntas y respuestas."
+      },
+      "icon": "./assets/icon.png"
+    },
+    "android": {
+      "package": "com.minegocio.quickcoti.os",
+      "usesCleartextTraffic": true
+    },
+    "plugins": [
+      [
+        "@qvac/sdk/expo-plugin",
+        {
+          "installMissingPrebuilds": true
+        }
+      ],
+      "onnxruntime-react-native",
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "Usamos la cámara para leer las notas y tickets de tus proveedores."
+        }
+      ],
+      [
+        "expo-speech-recognition",
+        {
+          "microphonePermission": "Usamos el micrófono para que puedas hablarle a Hermes y dictar en lugar de escribir.",
+          "speechRecognitionPermission": "Convertimos tu voz en texto en el iPhone para que puedas dictar preguntas y respuestas."
+        }
+      ],
+      "expo-sharing",
+      "expo-secure-store"
+    ],
+    "icon": "./assets/icon.png"
+  }
+}

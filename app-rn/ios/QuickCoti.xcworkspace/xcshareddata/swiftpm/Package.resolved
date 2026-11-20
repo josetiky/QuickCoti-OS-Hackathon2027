@@ -1,0 +1,15 @@
+{
+  "originHash" : "d33ace9b0dfa98f1a6e0c3430428d1dfaeba296bec91009404ba45ccec63af14",
+  "pins" : [
+    {
+      "identity" : "bare-kit-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/holepunchto/bare-kit-swift",
+      "state" : {
+        "revision" : "753f4fcca2f9fde40692fcdaf24d5c5c66b9b0da",
+        "version" : "2.2.0"
+      }
+    }
+  ],
+  "version" : 3
+}
