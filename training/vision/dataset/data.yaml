@@ -1,0 +1,12 @@
+path: /dli/task/evento/training/vision/dataset
+train: images/train
+val: images/val
+test: images/test
+names:
+  0: proveedor
+  1: fecha
+  2: renglon
+  3: total
+  4: folio
+  5: nota_impresa
+  6: nota_manuscrita

@@ -1,0 +1,3 @@
+ec256e5ba0fdbca3a2c8415a3d950c9598f60cc47f08db2af5f4e4536365ae0f  ../../models/quickcoti-lora-v2.gguf
+4c607650a76fa734ebbe30d193dc5d0eaf987fe6f9ee1e1956b203cbdd4bd6fd  ../../models/quickcoti-lora.gguf
+c04d6acf3a0730b3ae7ad456948ca2a25accef3217883c3ac2e84cc9260db127  ../../models/quickcoti-merged-q8_0.gguf
